@@ -14,26 +14,24 @@ body {
 
 .container {
   text-align: center;
-  margin-top: 120px;
+  margin-top: 100px;
 }
 
 .box {
-  background: rgba(0,0,0,0.85);
+  background: rgba(0,0,0,0.9);
   display: inline-block;
   padding: 40px;
   border-radius: 15px;
-  min-width: 300px;
+  width: 350px;
 }
 
 .btn {
   display: block;
-  margin: 15px auto;
+  margin: 10px auto;
   padding: 12px;
   background: #333;
   color: white;
-  text-decoration: none;
   border-radius: 8px;
-  width: 220px;
   cursor: pointer;
 }
 
@@ -43,6 +41,7 @@ body {
 
 .pc {
   margin-top: 20px;
+  text-align: left;
 }
 </style>
 
@@ -50,13 +49,13 @@ body {
 <body>
 
 <div class="container">
-  <div class="box" id="mainBox">
+  <div class="box">
 
-    <h1>Your Budget</h1>
-    <p id="budgetText"></p>
+    <h2>Your Budget</h2>
+    <p id="budgetText">Loading...</p>
 
-    <a class="btn" onclick="choose('gaming')">Gaming 🎮</a>
-    <a class="btn" onclick="choose('work')">Work 💼</a>
+    <div class="btn" onclick="choose('gaming')">Gaming 🎮</div>
+    <div class="btn" onclick="choose('work')">Work 💼</div>
 
     <div id="results"></div>
 
@@ -65,147 +64,93 @@ body {
 
 <script>
 const params = new URLSearchParams(window.location.search);
-<script>
-const params = new URLSearchParams(window.location.search);
-const budget = parseInt(params.get("budget"));
+const budget = parseInt(params.get("budget")) || 0;
 
-let realBudget;
+// показываем бюджет ВСЕГДА
+document.getElementById("budgetText").innerText = budget + " €";
 
 // логика прибыли
-if (budget > 300) {
-  realBudget = budget - 200;
-} else {
-  realBudget = budget;
-}
-
-document.getElementById("budgetText").innerText = budget + " €";
-
-document.getElementById("budgetText").innerText = budget + " €";
+let realBudget = budget > 300 ? budget - 200 : budget;
 
 function choose(type) {
-  let resultHTML = "";
+  let html = "";
 
   if (type === "gaming") {
 
-    if (realBudget < 200) {
-      resultHTML = `
+    if (realBudget < 400) {
+      html = `
       <div class="pc">
-        <p>Very Basic PC</p>
-        <p>Used parts / no GPU</p>
-      </div>`;
-    }
-
-    else if (realBudget < 400) {
-      resultHTML = `
-      <div class="pc">
-        <p>Entry Gaming PC</p>
-        <p>GTX 1050 Ti / Ryzen 3</p>
+        <h3>Budget Gaming PC</h3>
+        <p>CPU: Ryzen 3 4100</p>
+        <p>GPU: GTX 1050 Ti</p>
+        <p>RAM: 8GB</p>
+        <p>Storage: 256GB SSD</p>
+        <p>Motherboard: A320</p>
+        <p>PSU: 400W</p>
       </div>`;
     }
 
     else if (realBudget < 800) {
-      resultHTML = `
+      html = `
       <div class="pc">
-        <p>Good Gaming PC</p>
-        <p>GTX 1660 / Ryzen 5</p>
+        <h3>Mid Gaming PC</h3>
+        <p>CPU: Ryzen 5 5600</p>
+        <p>GPU: GTX 1660</p>
+        <p>RAM: 16GB</p>
+        <p>Storage: 512GB SSD</p>
+        <p>Motherboard: B450</p>
+        <p>PSU: 500W</p>
       </div>`;
     }
 
     else {
-      resultHTML = `
+      html = `
       <div class="pc">
-        <p>High-End Gaming PC</p>
-        <p>RTX 3060+ / Ryzen 7+</p>
+        <h3>High-End Gaming PC</h3>
+        <p>CPU: Ryzen 7 5800X</p>
+        <p>GPU: RTX 3060+</p>
+        <p>RAM: 32GB</p>
+        <p>Storage: 1TB SSD</p>
+        <p>Motherboard: B550</p>
+        <p>PSU: 650W</p>
       </div>`;
     }
 
   } else {
 
-    if (realBudget < 200) {
-      resultHTML = `
+    if (realBudget < 400) {
+      html = `
       <div class="pc">
-        <p>Basic Office PC</p>
-        <p>Used i3 / 4GB RAM</p>
+        <h3>Office PC</h3>
+        <p>CPU: Intel i3</p>
+        <p>RAM: 8GB</p>
+        <p>Storage: 256GB SSD</p>
       </div>`;
     }
 
-    else if (realBudget < 500) {
-      resultHTML = `
+    else if (realBudget < 800) {
+      html = `
       <div class="pc">
-        <p>Office PC</p>
-        <p>i3 / 8GB RAM</p>
-      </div>`;
-    }
-
-    else if (realBudget < 1000) {
-      resultHTML = `
-      <div class="pc">
-        <p>Work PC</p>
-        <p>i5 / 16GB RAM</p>
+        <h3>Work PC</h3>
+        <p>CPU: Intel i5</p>
+        <p>RAM: 16GB</p>
+        <p>Storage: 512GB SSD</p>
       </div>`;
     }
 
     else {
-      resultHTML = `
+      html = `
       <div class="pc">
-        <p>Pro Workstation</p>
-        <p>i7+ / 32GB RAM</p>
+        <h3>Pro Workstation</h3>
+        <p>CPU: Intel i7</p>
+        <p>RAM: 32GB</p>
+        <p>Storage: 1TB SSD</p>
       </div>`;
     }
 
   }
 
-  document.getElementById("results").innerHTML = resultHTML;
-}
-
-  if (type === "gaming") {
-    if (budget < 1000) {
-      resultHTML = `
-      <div class="pc">
-        <p>Basic Gaming PC</p>
-        <p>GTX 1650 / Ryzen 5</p>
-      </div>`;
-    } 
-    else if (budget < 3000) {
-      resultHTML = `
-      <div class="pc">
-        <p>Mid Gaming PC</p>
-        <p>RTX 3060 / Ryzen 7</p>
-      </div>`;
-    } 
-    else {
-      resultHTML = `
-      <div class="pc">
-        <p>High-End Gaming PC</p>
-        <p>RTX 4090 / i9</p>
-      </div>`;
-    }
-  } 
-  else {
-    if (budget < 1000) {
-      resultHTML = `
-      <div class="pc">
-        <p>Office PC</p>
-        <p>i3 / 8GB RAM</p>
-      </div>`;
-    } 
-    else if (budget < 3000) {
-      resultHTML = `
-      <div class="pc">
-        <p>Workstation</p>
-        <p>i7 / 16GB RAM</p>
-      </div>`;
-    } 
-    else {
-      resultHTML = `
-      <div class="pc">
-        <p>Pro Workstation</p>
-        <p>i9 / 32GB RAM</p>
-      </div>`;
-    }
-  }
-
-  document.getElementById("results").innerHTML = resultHTML;
+  document.getElementById("results").innerHTML = html;
 }
 </script>
 
