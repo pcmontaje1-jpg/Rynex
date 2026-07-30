@@ -86,10 +86,7 @@
 </div>
 
 <!-- КНОПКА (ТОЛЬКО ОНА ИЗМЕНЕНА) -->
-<a href="#" class="btn">
-    Continue →
-</a>
-
+<a href="#" class="btn" onclick="goNext()">Continue →</a>
 <script>
     const slider = document.getElementById("slider");
     const value = document.getElementById("value");
@@ -99,7 +96,13 @@
     }
 </script>
 
-</body>
+</body><script>
+function goNext() {
+  var budget = document.getElementById("slider").value;
+
+  window.location.href = "results.html?budget=" + budget;
+}
+</script>
 </html>
 
 
