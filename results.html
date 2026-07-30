@@ -2,43 +2,52 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>PC Build Result</title>
+<title>PC Builder</title>
 
 <style>
 body {
   margin: 0;
+  height: 100vh;
   font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #1e1e1e, #2c2c2c);
   color: white;
   text-align: center;
+
+  /* ✅ ОДИН КРУГ */
+  background: radial-gradient(circle at center, black 0%, #222 40%, #ccc 100%);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .container {
-  margin-top: 80px;
+  text-align: center;
 }
 
-.card {
-  background: #2a2a2a;
-  padding: 30px;
-  border-radius: 12px;
-  width: 350px;
-  margin: auto;
-  box-shadow: 0 0 20px rgba(0,0,0,0.5);
-}
-
-button {
-  margin-top: 20px;
-  padding: 12px 20px;
+/* КНОПКИ */
+.btn {
+  padding: 15px 30px;
+  margin: 10px;
+  border: none;
+  border-radius: 10px;
   background: #555;
   color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
   font-size: 16px;
+  cursor: pointer;
 }
 
-button:hover {
+.btn:hover {
   background: #777;
+}
+
+/* КАРТОЧКА */
+.card {
+  margin-top: 25px;
+  background: rgba(0,0,0,0.85);
+  padding: 25px;
+  border-radius: 12px;
+  display: inline-block;
+  min-width: 300px;
 }
 </style>
 </head>
@@ -46,125 +55,98 @@ button:hover {
 <body>
 
 <div class="container">
+
   <h1>Your Budget: <span id="budget"></span>€</h1>
 
-  <div class="card" id="result"></div>
+  <!-- ВЫБОР -->
+  <div id="choose">
+    <button class="btn" onclick="buildPC('gaming')">🎮 Gaming</button>
+    <button class="btn" onclick="buildPC('work')">💼 Work</button>
+  </div>
 
-  <button onclick="goBack()">Back</button>
+  <!-- РЕЗУЛЬТАТ -->
+  <div id="result"></div>
+
 </div>
 
 <script>
-// ===== ПОЛУЧАЕМ ДАННЫЕ =====
+// получаем бюджет из ссылки
 const params = new URLSearchParams(window.location.search);
 const clientBudget = parseInt(params.get("budget")) || 700;
-const type = params.get("type") || "gaming";
 
 document.getElementById("budget").innerText = clientBudget;
 
-// ===== ПРИБЫЛЬ =====
-let profit = 120;
-
-if (clientBudget >= 900) profit = 150;
-if (clientBudget <= 500) profit = 100;
+// прибыль
+let profit = 100;
+if (clientBudget >= 800) profit = 150;
 
 const realBudget = clientBudget - profit;
 
-// ===== СБОРКИ =====
-function getPC(budget, type) {
-  let pc = "";
+// сборки
+function getBuild(budget, type) {
 
   if (type === "gaming") {
 
-    if (budget <= 400) {
-      pc = `
-Ryzen 5 3600
-GTX 1660 Super
-16GB RAM
-500GB SSD
-B450 Motherboard
-500W PSU
-      `;
-    }
+    if (budget <= 400) return `
+Ryzen 5 3600<br>
+GTX 1660 Super<br>
+16GB RAM<br>
+500GB SSD`;
 
-    else if (budget <= 550) {
-      pc = `
-Ryzen 5 5600
-RX 6600
-16GB RAM (2x8)
-1TB SSD
-B550 Motherboard
-550W PSU
-      `;
-    }
+    if (budget <= 700) return `
+Ryzen 5 5600<br>
+RX 6600<br>
+16GB RAM<br>
+1TB SSD`;
 
-    else if (budget <= 800) {
-      pc = `
-Ryzen 5 5600
-RTX 3060
-16GB RAM
-1TB NVMe SSD
-B550 Motherboard
-600W PSU
-      `;
-    }
-
-    else {
-      pc = `
-Ryzen 7 5800X
-RTX 4060
-32GB RAM
-1TB NVMe SSD
-B550/X570 Motherboard
-650W PSU
-      `;
-    }
-
-  } else {
-
-    if (budget <= 400) {
-      pc = `
-Ryzen 5 5600G
-16GB RAM
-500GB SSD
-      `;
-    }
-
-    else if (budget <= 700) {
-      pc = `
-Ryzen 7 5700G
-16GB RAM
-1TB SSD
-      `;
-    }
-
-    else {
-      pc = `
-Intel i7 / Ryzen 7
-32GB RAM
-1TB NVMe SSD
-      `;
-    }
+    return `
+Ryzen 5 5600<br>
+RTX 3060<br>
+16GB RAM<br>
+1TB NVMe`;
   }
 
-  return pc;
+  // work
+  else {
+
+    if (budget <= 400) return `
+Ryzen 5 5600G<br>
+16GB RAM<br>
+500GB SSD`;
+
+    if (budget <= 700) return `
+Ryzen 5 5600<br>
+16GB RAM<br>
+1TB SSD`;
+
+    return `
+Ryzen 7 5800X<br>
+32GB RAM<br>
+1TB NVMe`;
+  }
 }
 
-// ===== ВЫВОД =====
-function showResult() {
-  const pc = getPC(realBudget, type);
+// выбор типа
+function buildPC(type) {
+
+  const build = getBuild(realBudget, type);
+
+  document.getElementById("choose").style.display = "none";
 
   document.getElementById("result").innerHTML = `
-    <h2>Your PC Build</h2>
-    <p><b>Type:</b> ${type}</p>
-    <pre>${pc}</pre>
+    <div class="card">
+      <h2>${type === 'gaming' ? 'Gaming PC' : 'Work PC'}</h2>
+      <p>${build}</p>
+      <p><b>Price:</b> ${clientBudget}€</p>
+      <button class="btn" onclick="buy()">Buy</button>
+    </div>
   `;
 }
 
-function goBack() {
-  window.history.back();
+// кнопка покупки
+function buy() {
+  window.location.href = "buy.html";
 }
-
-showResult();
 </script>
 
 </body>
