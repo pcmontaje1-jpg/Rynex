@@ -68,9 +68,47 @@ var params = new URLSearchParams(window.location.search);
 var budget = params.get("budget");
 
 document.getElementById("text").innerText = budget + " €";
+<script>
+var params = new URLSearchParams(window.location.search);
+var budget = parseInt(params.get("budget"));
+
+document.getElementById("text").innerText = budget + " €";
 
 function choose(type) {
-  alert("You chose: " + type + " PC with budget " + budget + "€");
+  const box = document.querySelector(".box");
+
+  let content = "<h2>Best options for you:</h2>";
+
+  if (type === "gaming") {
+
+    if (budget < 1000) {
+      content += "<p>🔹 Basic Gaming PC<br>GTX 1650 / Ryzen 5</p>";
+    } 
+    else if (budget < 3000) {
+      content += "<p>🔥 Mid Gaming PC<br>RTX 3060 / Ryzen 7</p>";
+    } 
+    else {
+      content += "<p>🚀 High-End Gaming PC<br>RTX 4090 / i9</p>";
+    }
+
+  } else {
+
+    if (budget < 1000) {
+      content += "<p>💼 Office PC<br>i3 / 8GB RAM</p>";
+    } 
+    else if (budget < 3000) {
+      content += "<p>💻 Workstation<br>i7 / 16GB RAM</p>";
+    } 
+    else {
+      content += "<p>🧠 Pro Workstation<br>i9 / 32GB RAM</p>";
+    }
+
+  }
+
+  box.innerHTML = content;
+}
+</script>
+
 
   // дальше можно сделать переход:
   // window.location.href = "final.html?budget=" + budget + "&type=" + type;
