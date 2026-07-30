@@ -69,114 +69,78 @@ const budget = parseInt(params.get("budget")) || 0;
 // показываем бюджет ВСЕГДА
 document.getElementById("budgetText").innerText = budget + " €";
 
-<script>
-function generateBuild() {
-
-    let budget = parseInt(document.querySelector('input[name="budget"]').value);
-    let type = document.querySelector('select[name="type"]').value;
-
-    // ===== ПРОВЕРКА БЮДЖЕТА =====
-    if (isNaN(budget)) {
-        alert("Enter your budget");
-        return;
-    }
-
-    if (budget < 100) {
-        alert("Minimum budget is 100€");
-        return;
-    }
-
-    if (budget > 10000) {
-        alert("Maximum budget is 10,000€");
-        return;
-    }
-
-    // ===== ЛОГИКА ПРИБЫЛИ =====
-    let profit = 100;
-    let realBudget = budget - profit;
-
-    let result = "";
-
-    // ===== GAMING PC =====
-    if (type === "Gaming") {
-
-        if (realBudget <= 300) {
-            result = `
-            <h2>Gaming PC (${budget}€)</h2>
-            <p>CPU: Ryzen 5 3600</p>
-            <p>GPU: GTX 1660</p>
-            <p>RAM: 16GB DDR4</p>
-            <p>Storage: 500GB SSD</p>
-            <p>Motherboard: B450</p>
-            <p>PSU: 500W</p>
-            <p>Case: Basic Case</p>
-            `;
-        } else if (realBudget <= 800) {
-            result = `
-            <h2>Gaming PC (${budget}€)</h2>
-            <p>CPU: Ryzen 5 5600</p>
-            <p>GPU: RTX 3060</p>
-            <p>RAM: 16GB DDR4</p>
-            <p>Storage: 1TB SSD</p>
-            <p>Motherboard: B550</p>
-            <p>PSU: 600W</p>
-            <p>Case: Gaming Case</p>
-            `;
-        } else {
-            result = `
-            <h2>Gaming PC (${budget}€)</h2>
-            <p>CPU: Ryzen 7 / Ryzen 9</p>
-            <p>GPU: RTX 4070+</p>
-            <p>RAM: 32GB DDR4/DDR5</p>
-            <p>Storage: 2TB SSD</p>
-            <p>Motherboard: X570 / B650</p>
-            <p>PSU: 750W+</p>
-            <p>Case: Premium Case</p>
-            `;
-        }
-
-    // ===== WORK PC =====
-    } else {
-
-        if (realBudget <= 300) {
-            result = `
-            <h2>Work PC (${budget}€)</h2>
-            <p>CPU: Intel i5</p>
-            <p>GPU: Integrated</p>
-            <p>RAM: 8GB DDR4</p>
-            <p>Storage: 256GB SSD</p>
-            <p>Motherboard: H410</p>
-            <p>PSU: 400W</p>
-            <p>Case: Office Case</p>
-            `;
-        } else if (realBudget <= 800) {
-            result = `
-            <h2>Work PC (${budget}€)</h2>
-            <p>CPU: Intel i7</p>
-            <p>GPU: Integrated / GTX 1650</p>
-            <p>RAM: 16GB DDR4</p>
-            <p>Storage: 512GB SSD</p>
-            <p>Motherboard: B460</p>
-            <p>PSU: 500W</p>
-            <p>Case: Office Case</p>
-            `;
-        } else {
-            result = `
-            <h2>Work PC (${budget}€)</h2>
-            <p>CPU: Intel i9 / Ryzen 9</p>
-            <p>GPU: RTX 3060+</p>
-            <p>RAM: 32GB+</p>
-            <p>Storage: 1TB+ SSD</p>
-            <p>Motherboard: High-end</p>
-            <p>PSU: 650W+</p>
-            <p>Case: Premium Office Case</p>
-            `;
-        }
-    }
-
-    document.getElementById("result").innerHTML = result;
+// логика прибыли
+let realBudget = budget > 300 ? budget - 200 : budget;
+function choose(type) {
+  let html = "";
+  if (type === "gaming") {
+if (realBudget < 400) {
+  html = `
+  \<div class="pc">
+    \<h3>Budget Gaming PC\</h3>
+    \<p>CPU: Ryzen 3 4100\</p>
+    \<p>GPU: GTX 1050 Ti\</p>
+    \<p>RAM: 8GB\</p>
+    \<p>Storage: 256GB SSD\</p>
+    \<p>Motherboard: A320\</p>
+    \<p>PSU: 400W\</p>
+  \</div>`;
 }
-</script>
+
+else if (realBudget < 800) {
+  html = `
+  \<div class="pc">
+    \<h3>Mid Gaming PC\</h3>
+    \<p>CPU: Ryzen 5 5600\</p>
+    \<p>GPU: GTX 1660\</p>
+    \<p>RAM: 16GB\</p>
+    \<p>Storage: 512GB SSD\</p>
+    \<p>Motherboard: B450\</p>
+    \<p>PSU: 500W\</p>
+  \</div>`;
+}
+
+else {
+  html = `
+  \<div class="pc">
+    \<h3>High-End Gaming PC\</h3>
+    \<p>CPU: Ryzen 7 5800X\</p>
+    \<p>GPU: RTX 3060+\</p>
+    \<p>RAM: 32GB\</p>
+    \<p>Storage: 1TB SSD\</p>
+    \<p>Motherboard: B550\</p>
+    \<p>PSU: 650W\</p>
+  \</div>`;
+}
+  } else {
+if (realBudget < 400) {
+  html = `
+  \<div class="pc">
+    \<h3>Office PC\</h3>
+    \<p>CPU: Intel i3\</p>
+    \<p>RAM: 8GB\</p>
+    \<p>Storage: 256GB SSD\</p>
+  \</div>`;
+}
+
+else if (realBudget < 800) {
+  html = `
+  \<div class="pc">
+    \<h3>Work PC\</h3>
+    \<p>CPU: Intel i5\</p>
+    \<p>RAM: 16GB\</p>
+    \<p>Storage: 512GB SSD\</p>
+  \</div>`;
+}
+
+else {
+  html = `
+  \<div class="pc">
+    \<h3>Pro Workstation\</h3>
+    \<p>CPU: Intel i7\</p>
+    \<p>RAM: 32GB\</p>
+    \<p>Storage: 1TB SSD\</p>
+  \</div>`;
     }
 
   }
