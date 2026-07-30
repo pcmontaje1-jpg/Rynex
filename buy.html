@@ -1,0 +1,51 @@
+<form onsubmit="sendEmail(); return false;">
+
+<input id="name" type="text" placeholder="Your name">
+
+<input id="email" type="email" placeholder="Your email">
+
+<input id="budget" type="text" placeholder="Budget (example: 700€)">
+
+<select id="type">
+<option>Gaming PC</option>
+<option>Work PC</option>
+</select>
+
+<textarea id="message" placeholder="Additional information"></textarea>
+
+<button class="buy-button">
+SEND REQUEST
+</button>
+
+</form>
+
+
+<script>
+function sendEmail(){
+
+let name = document.getElementById("name").value;
+let email = document.getElementById("email").value;
+let budget = document.getElementById("budget").value;
+let type = document.getElementById("type").value;
+let message = document.getElementById("message").value;
+
+
+let subject = "PC Request - " + type;
+
+
+let body =
+"Name: " + name +
+"\nEmail: " + email +
+"\nBudget: " + budget +
+"\nPC type: " + type +
+"\nMessage: " + message;
+
+
+window.location.href =
+"mailto:pcmontaje1@gmail.com" 
++ encodeURIComponent(subject)
++ "&body="
++ encodeURIComponent(body);
+
+}
+</script>
