@@ -65,12 +65,98 @@ body {
 
 <script>
 const params = new URLSearchParams(window.location.search);
+<script>
+const params = new URLSearchParams(window.location.search);
 const budget = parseInt(params.get("budget"));
+
+let realBudget;
+
+// логика прибыли
+if (budget > 300) {
+  realBudget = budget - 200;
+} else {
+  realBudget = budget;
+}
+
+document.getElementById("budgetText").innerText = budget + " €";
 
 document.getElementById("budgetText").innerText = budget + " €";
 
 function choose(type) {
   let resultHTML = "";
+
+  if (type === "gaming") {
+
+    if (realBudget < 200) {
+      resultHTML = `
+      <div class="pc">
+        <p>Very Basic PC</p>
+        <p>Used parts / no GPU</p>
+      </div>`;
+    }
+
+    else if (realBudget < 400) {
+      resultHTML = `
+      <div class="pc">
+        <p>Entry Gaming PC</p>
+        <p>GTX 1050 Ti / Ryzen 3</p>
+      </div>`;
+    }
+
+    else if (realBudget < 800) {
+      resultHTML = `
+      <div class="pc">
+        <p>Good Gaming PC</p>
+        <p>GTX 1660 / Ryzen 5</p>
+      </div>`;
+    }
+
+    else {
+      resultHTML = `
+      <div class="pc">
+        <p>High-End Gaming PC</p>
+        <p>RTX 3060+ / Ryzen 7+</p>
+      </div>`;
+    }
+
+  } else {
+
+    if (realBudget < 200) {
+      resultHTML = `
+      <div class="pc">
+        <p>Basic Office PC</p>
+        <p>Used i3 / 4GB RAM</p>
+      </div>`;
+    }
+
+    else if (realBudget < 500) {
+      resultHTML = `
+      <div class="pc">
+        <p>Office PC</p>
+        <p>i3 / 8GB RAM</p>
+      </div>`;
+    }
+
+    else if (realBudget < 1000) {
+      resultHTML = `
+      <div class="pc">
+        <p>Work PC</p>
+        <p>i5 / 16GB RAM</p>
+      </div>`;
+    }
+
+    else {
+      resultHTML = `
+      <div class="pc">
+        <p>Pro Workstation</p>
+        <p>i7+ / 32GB RAM</p>
+      </div>`;
+    }
+
+  }
+
+  document.getElementById("results").innerHTML = resultHTML;
+}
 
   if (type === "gaming") {
     if (budget < 1000) {
