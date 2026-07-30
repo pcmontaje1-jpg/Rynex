@@ -1,51 +1,102 @@
-<form onsubmit="sendEmail(); return false;">
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Buy PC</title>
 
-<input id="name" type="text" placeholder="Your name">
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
 
-<input id="email" type="email" placeholder="Your email">
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
-<input id="budget" type="text" placeholder="Budget (example: 700€)">
+            font-family: Arial;
 
-<select id="type">
-<option>Gaming PC</option>
-<option>Work PC</option>
-</select>
+            /* чёрный центр + белые края */
+            background: radial-gradient(circle, #000 40%, #fff 100%);
+        }
 
-<textarea id="message" placeholder="Additional information"></textarea>
+        .form-box {
+            background: #111;
+            padding: 30px;
 
-<button class="buy-button">
-SEND REQUEST
-</button>
+            border-radius: 15px;
 
-</form>
+            width: 300px;
+            text-align: center;
 
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+        }
 
-<script>
-function sendEmail(){
+        h2 {
+            color: white;
+        }
 
-let name = document.getElementById("name").value;
-let email = document.getElementById("email").value;
-let budget = document.getElementById("budget").value;
-let type = document.getElementById("type").value;
-let message = document.getElementById("message").value;
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
 
+            border-radius: 8px;
+            border: none;
 
-let subject = "PC Request - " + type;
+            background: #222;
+            color: white;
+        }
 
+        button {
+            width: 100%;
+            padding: 12px;
 
-let body =
-"Name: " + name +
-"\nEmail: " + email +
-"\nBudget: " + budget +
-"\nPC type: " + type +
-"\nMessage: " + message;
+            background: #777;
+            color: white;
 
+            border: none;
+            border-radius: 10px;
 
-window.location.href =
-"mailto:pcmontaje1@gmail.com" 
-+ encodeURIComponent(subject)
-+ "&body="
-+ encodeURIComponent(body);
+            font-size: 18px;
+            cursor: pointer;
+        }
 
-}
-</script>
+        button:hover {
+            background: #999;
+        }
+
+        p {
+            color: #ccc;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="form-box">
+    <h2>Order Your PC</h2>
+
+    <p>Fill the form and your email will open to send the request.</p>
+
+    <form action="mailto:pcmontaje1@gmail.com" method="post" enctype="text/plain">
+
+        <input type="text" name="name" placeholder="Your Name" required>
+
+        <input type="email" name="email" placeholder="Your Email" required>
+
+        <input type="text" name="budget" placeholder="Budget (€)" required>
+
+        <select name="type">
+            <option>Gaming</option>
+            <option>Work</option>
+        </select>
+
+        <textarea name="message" placeholder="Message"></textarea>
+
+        <button type="submit">SEND</button>
+
+    </form>
+</div>
+
+</body>
+</html>
