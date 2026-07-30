@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Zorro PC</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: black;
+      color: white;
+      scroll-behavior: smooth;
+    }
+
+    section {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 18px;
+      opacity: 0.8;
+    }
+
+    .btn {
+      margin-top: 30px;
+      padding: 15px 30px;
+      border: 2px solid white;
+      background: transparent;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background: white;
+      color: black;
+    }
+
+    .bottom {
+      background: white;
+      color: black;
+      flex-direction: column;
+    }
+
+    .bottom .btn {
+      border: 2px solid black;
+      color: black;
+    }
+
+    .bottom .btn:hover {
+      background: black;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Hero -->
+  <section>
+    <div>
+      <h1>ZORRO PC</h1>
+      <p>Custom Gaming PCs in Badalona</p>
+      <button class="btn" onclick="scrollToNext()">Scroll Down ↓</button>
+    </div>
+  </section>
+
+  <!-- Info -->
+  <section>
+    <div>
+      <h1>Your Games. Your Power.</h1>
+      <p>CS2, Fortnite, GTA — ultra smooth performance</p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="bottom">
+    <h1>Ready to build your PC?</h1>
+    <button class="btn" onclick="alert('Order page coming soon')">
+      🚀 BUILD YOUR PC
+    </button>
+  </section>
+
+  <script>
+    function scrollToNext() {
+      window.scrollBy({
+        top: window.innerHeight,
+        behavior: 'smooth'
+      });
+    }
+  </script>
+
+</body>
+</html>
