@@ -9,41 +9,40 @@ body {
   margin: 0;
   font-family: Arial;
   color: white;
-
-  /* твой фон */
   background: linear-gradient(to right, white, black, white);
 }
 
 .container {
   text-align: center;
-  margin-top: 150px;
+  margin-top: 120px;
 }
 
 .box {
-  background: rgba(0,0,0,0.8);
+  background: rgba(0,0,0,0.85);
   display: inline-block;
   padding: 40px;
   border-radius: 15px;
-}
-
-h1 {
-  margin-bottom: 20px;
+  min-width: 300px;
 }
 
 .btn {
   display: block;
   margin: 15px auto;
-  padding: 12px 25px;
+  padding: 12px;
   background: #333;
   color: white;
   text-decoration: none;
   border-radius: 8px;
-  width: 200px;
-  transition: 0.2s;
+  width: 220px;
+  cursor: pointer;
 }
 
 .btn:hover {
   background: #555;
+}
+
+.pc {
+  margin-top: 20px;
 }
 </style>
 
@@ -51,67 +50,76 @@ h1 {
 <body>
 
 <div class="container">
-  <div class="box">
+  <div class="box" id="mainBox">
 
     <h1>Your Budget</h1>
-    <p id="text"></p>
+    <p id="budgetText"></p>
 
-    <!-- КНОПКИ -->
-    <a href="#" class="btn" onclick="choose('gaming')">Gaming PC 🎮</a>
-    <a href="#" class="btn" onclick="choose('work')">Work / Office 💼</a>
+    <a class="btn" onclick="choose('gaming')">Gaming 🎮</a>
+    <a class="btn" onclick="choose('work')">Work 💼</a>
+
+    <div id="results"></div>
 
   </div>
 </div>
 
 <script>
-var params = new URLSearchParams(window.location.search);
-var budget = params.get("budget");
+const params = new URLSearchParams(window.location.search);
+const budget = parseInt(params.get("budget"));
 
-document.getElementById("text").innerText = budget + " €";
-<script>
-var params = new URLSearchParams(window.location.search);
-var budget = parseInt(params.get("budget"));
-
-document.getElementById("text").innerText = budget + " €";
+document.getElementById("budgetText").innerText = budget + " €";
 
 function choose(type) {
-  const box = document.querySelector(".box");
-
-  let content = "<h2>Best options for you:</h2>";
+  let resultHTML = "";
 
   if (type === "gaming") {
-
     if (budget < 1000) {
-      content += "<p>🔹 Basic Gaming PC<br>GTX 1650 / Ryzen 5</p>";
+      resultHTML = `
+      <div class="pc">
+        <p>Basic Gaming PC</p>
+        <p>GTX 1650 / Ryzen 5</p>
+      </div>`;
     } 
     else if (budget < 3000) {
-      content += "<p>🔥 Mid Gaming PC<br>RTX 3060 / Ryzen 7</p>";
+      resultHTML = `
+      <div class="pc">
+        <p>Mid Gaming PC</p>
+        <p>RTX 3060 / Ryzen 7</p>
+      </div>`;
     } 
     else {
-      content += "<p>🚀 High-End Gaming PC<br>RTX 4090 / i9</p>";
+      resultHTML = `
+      <div class="pc">
+        <p>High-End Gaming PC</p>
+        <p>RTX 4090 / i9</p>
+      </div>`;
     }
-
-  } else {
-
+  } 
+  else {
     if (budget < 1000) {
-      content += "<p>💼 Office PC<br>i3 / 8GB RAM</p>";
+      resultHTML = `
+      <div class="pc">
+        <p>Office PC</p>
+        <p>i3 / 8GB RAM</p>
+      </div>`;
     } 
     else if (budget < 3000) {
-      content += "<p>💻 Workstation<br>i7 / 16GB RAM</p>";
+      resultHTML = `
+      <div class="pc">
+        <p>Workstation</p>
+        <p>i7 / 16GB RAM</p>
+      </div>`;
     } 
     else {
-      content += "<p>🧠 Pro Workstation<br>i9 / 32GB RAM</p>";
+      resultHTML = `
+      <div class="pc">
+        <p>Pro Workstation</p>
+        <p>i9 / 32GB RAM</p>
+      </div>`;
     }
-
   }
 
-  box.innerHTML = content;
-}
-</script>
-
-
-  // дальше можно сделать переход:
-  // window.location.href = "final.html?budget=" + budget + "&type=" + type;
+  document.getElementById("results").innerHTML = resultHTML;
 }
 </script>
 
