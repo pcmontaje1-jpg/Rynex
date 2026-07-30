@@ -1,16 +1,80 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Results</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  color: white;
+
+  /* твой фон */
+  background: linear-gradient(to right, white, black, white);
+}
+
+.container {
+  text-align: center;
+  margin-top: 150px;
+}
+
+.box {
+  background: rgba(0,0,0,0.8);
+  display: inline-block;
+  padding: 40px;
+  border-radius: 15px;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+.btn {
+  display: block;
+  margin: 15px auto;
+  padding: 12px 25px;
+  background: #333;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  width: 200px;
+  transition: 0.2s;
+}
+
+.btn:hover {
+  background: #555;
+}
+</style>
+
+</head>
 <body>
 
-<h1>Result</h1>
+<div class="container">
+  <div class="box">
 
-<p id="text"></p>
+    <h1>Your Budget</h1>
+    <p id="text"></p>
+
+    <!-- КНОПКИ -->
+    <a href="#" class="btn" onclick="choose('gaming')">Gaming PC 🎮</a>
+    <a href="#" class="btn" onclick="choose('work')">Work / Office 💼</a>
+
+  </div>
+</div>
 
 <script>
 var params = new URLSearchParams(window.location.search);
 var budget = params.get("budget");
 
-document.getElementById("text").innerText = "Your budget: " + budget + "€";
+document.getElementById("text").innerText = budget + " €";
+
+function choose(type) {
+  alert("You chose: " + type + " PC with budget " + budget + "€");
+
+  // дальше можно сделать переход:
+  // window.location.href = "final.html?budget=" + budget + "&type=" + type;
+}
 </script>
 
 </body>
