@@ -1,106 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rynex Builder</title>
+    <meta charset="UTF-8">
+    <title>PC Builder</title>
 
-<style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Segoe UI", Arial, sans-serif;
-}
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
 
-body {
-    height: 100vh;
-    background: radial-gradient(circle at center,
-        #000000 50%,
-        #050505 70%,
-        #0f0f0f 100%);
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+            /* твой фон */
+            background: radial-gradient(circle at center, #000000 20%, #111111 40%, #ffffff 100%);
+            color: white;
 
-/* Контейнер */
-.container {
-    text-align: center;
-    width: 80%;
-}
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
 
-/* Заголовок */
-.title {
-    font-size: 40px;
-    margin-bottom: 50px;
-    letter-spacing: 3px;
-}
+        h1 {
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+        }
 
-/* Значение бюджета */
-.value {
-    font-size: 30px;
-    margin-bottom: 30px;
-}
+        /* Слайдер */
+        input[type="range"] {
+            width: 300px;
+        }
 
-/* Слайдер */
-.slider {
-    width: 100%;
-}
+        /* Контейнер кнопки */
+        .btn-container {
+            margin-top: 60px;
+        }
 
-/* Кастом стиль */
-input[type=range] {
-    width: 100%;
-    appearance: none;
-    height: 6px;
-    background: #333;
-    border-radius: 5px;
-    outline: none;
-}
+        /* КНОПКА */
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            border: 2px solid #888;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            letter-spacing: 2px;
+            border-radius: 10px;
+            transition: 0.3s;
+            background: none;
+        }
 
-/* Ползунок */
-input[type=range]::-webkit-slider-thumb {
-    appearance: none;
-    width: 18px;
-    height: 18px;
-    background: white;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-/* Для Firefox */
-input[type=range]::-moz-range-thumb {
-    width: 18px;
-    height: 18px;
-    background: white;
-    border-radius: 50%;
-    cursor: pointer;
-}
-</style>
+        .btn:hover {
+            background: #888;
+            color: black;
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="container">
-    <div class="title">SELECT YOUR BUDGET</div>
+    <h1>Choose your budget</h1>
 
-    <div class="value" id="budgetValue">€1000</div>
+    <!-- СЛАЙДЕР -->
+    <input type="range" min="500" max="5000" value="1000">
 
-    <input type="range" min="100" max="10000" value="1000" step="100"
-           class="slider" id="budgetSlider">
-</div><a href="next.html" class="btn">
-    Continue →
-</a>
-
-<script>
-const slider = document.getElementById("budgetSlider");
-const output = document.getElementById("budgetValue");
-
-slider.oninput = function() {
-    output.innerHTML = "€" + this.value;
-}
-</script>
+    <!-- КНОПКА -->
+    <div class="btn-container">
+        <a href="#" class="btn">
+            Continue →
+        </a>
+    </div>
 
 </body>
 </html>
