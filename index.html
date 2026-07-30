@@ -1,87 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rynex</title>
+  <meta charset="UTF-8">
+  <title>Rynex</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Segoe UI", Arial, sans-serif;
-}
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
 
-body {
-    height: 200vh;
-    background: radial-gradient(circle at center,
-        #000000 35%,
-        #0a0a0a 55%,
-        #ffffff 100%);
-    color: white;
-}
+    body {
+      background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+      color: white;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-.hero {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
+    .container {
+      text-align: center;
+    }
 
-.subtitle {
-    font-size: 14px;
-    letter-spacing: 4px;
-    opacity: 0.6;
-    margin-bottom: 20px;
-}
+    .subtitle {
+      font-size: 12px;
+      letter-spacing: 3px;
+      color: #aaa;
+      margin-bottom: 10px;
+    }
 
-.title {
-    font-size: 90px;
-    letter-spacing: 10px;
-    font-weight: 300;
-}
+    .title {
+      font-size: 80px;
+      font-weight: 300;
+      letter-spacing: 10px;
+      margin-bottom: 40px;
+    }
 
-.bottom-btn {
-    position: fixed;
-    bottom: 50px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #2b2b2b;
-    padding: 18px 50px;
-    border-radius: 10px;
-    font-size: 16px;
-    letter-spacing: 2px;
-    cursor: pointer;
-    transition: 0.3s;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
+    /* КНОПКА */
+    .btn {
+      display: inline-block;
+      padding: 15px 40px;
+      border: 2px solid #888;
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      letter-spacing: 2px;
+      border-radius: 10px;
+      transition: 0.3s;
+    }
 
-.bottom-btn:hover {
-    background: #3a3a3a;
-}
+    .btn:hover {
+      background: #888;
+      color: black;
+    }
 
-.arrow {
-    font-size: 18px;
-}
-</style>
+    .arrow {
+      margin-left: 10px;
+    }
+
+  </style>
 </head>
 
 <body>
 
-<div class="hero">
-    <div class="subtitle">NEXT GENERATION SYSTEM</div>
+  <div class="container">
+    <div class="subtitle">NEXT GENERATION</div>
     <div class="title">RYNEX</div>
-<a href="builder.html" class="btn-white center-btn">
-    Build Your PC <span>→</span>
-</a>
 
-
-</a>
-</a>
+    <a href="builder.html" class="btn">
+      Build Your PC
+      <span class="arrow">→</span>
+    </a>
+  </div>
 
 </body>
 </html>
