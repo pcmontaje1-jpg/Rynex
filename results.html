@@ -2,173 +2,170 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Results</title>
+<title>PC Build Result</title>
 
 <style>
 body {
   margin: 0;
-  font-family: Arial;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #1e1e1e, #2c2c2c);
   color: white;
-  background: linear-gradient(to right, white, black, white);
+  text-align: center;
 }
 
 .container {
-  text-align: center;
-  margin-top: 100px;
+  margin-top: 80px;
 }
 
-.box {
-  background: rgba(0,0,0,0.9);
-  display: inline-block;
-  padding: 40px;
-  border-radius: 15px;
+.card {
+  background: #2a2a2a;
+  padding: 30px;
+  border-radius: 12px;
   width: 350px;
+  margin: auto;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
 }
 
-.btn {
-  display: block;
-  margin: 10px auto;
-  padding: 12px;
-  background: #333;
+button {
+  margin-top: 20px;
+  padding: 12px 20px;
+  background: #555;
   color: white;
+  border: none;
   border-radius: 8px;
   cursor: pointer;
+  font-size: 16px;
 }
 
-.btn:hover {
-  background: #555;
-}
-
-.pc {
-  margin-top: 20px;
-  text-align: left;
+button:hover {
+  background: #777;
 }
 </style>
-
 </head>
+
 <body>
 
 <div class="container">
-  <div class="box">
+  <h1>Your Budget: <span id="budget"></span>€</h1>
 
-    <h2>Your Budget</h2>
-    <p id="budgetText">Loading...</p>
+  <div class="card" id="result"></div>
 
-    <div class="btn" onclick="choose('gaming')">Gaming 🎮</div>
-    <div class="btn" onclick="choose('work')">Work 💼</div>
-
-    <div id="results"></div>
-
-  </div>
+  <button onclick="goBack()">Back</button>
 </div>
 
 <script>
+// ===== ПОЛУЧАЕМ ДАННЫЕ =====
 const params = new URLSearchParams(window.location.search);
-const budget = parseInt(params.get("budget")) || 0;
+const clientBudget = parseInt(params.get("budget")) || 700;
+const type = params.get("type") || "gaming";
 
-// показываем бюджет ВСЕГДА
-document.getElementById("budgetText").innerText = budget + " €";
+document.getElementById("budget").innerText = clientBudget;
 
-// логика прибыли
-let realBudget = budget > 300 ? budget - 200 : budget;
-function choose(type) {
-  let html = "";
+// ===== ПРИБЫЛЬ =====
+let profit = 120;
+
+if (clientBudget >= 900) profit = 150;
+if (clientBudget <= 500) profit = 100;
+
+const realBudget = clientBudget - profit;
+
+// ===== СБОРКИ =====
+function getPC(budget, type) {
+  let pc = "";
+
   if (type === "gaming") {
-if (realBudget < 400) {
-  html = `
-  \<div class="pc">
-    \<h3>Budget Gaming PC\</h3>
-    \<p>CPU: Ryzen 3 4100\</p>
-    \<p>GPU: GTX 1050 Ti\</p>
-    \<p>RAM: 8GB\</p>
-    \<p>Storage: 256GB SSD\</p>
-    \<p>Motherboard: A320\</p>
-    \<p>PSU: 400W\</p>
-  \</div>`;
-}
 
-else if (realBudget < 800) {
-  html = `
-  \<div class="pc">
-    \<h3>Mid Gaming PC\</h3>
-    \<p>CPU: Ryzen 5 5600\</p>
-    \<p>GPU: GTX 1660\</p>
-    \<p>RAM: 16GB\</p>
-    \<p>Storage: 512GB SSD\</p>
-    \<p>Motherboard: B450\</p>
-    \<p>PSU: 500W\</p>
-  \</div>`;
-}
-
-else {
-  html = `
-  \<div class="pc">
-    \<h3>High-End Gaming PC\</h3>
-    \<p>CPU: Ryzen 7 5800X\</p>
-    \<p>GPU: RTX 3060+\</p>
-    \<p>RAM: 32GB\</p>
-    \<p>Storage: 1TB SSD\</p>
-    \<p>Motherboard: B550\</p>
-    \<p>PSU: 650W\</p>
-  \</div>`;
-}
-  } else {
-if (realBudget < 400) {
-  html = `
-  \<div class="pc">
-    \<h3>Office PC\</h3>
-    \<p>CPU: Intel i3\</p>
-    \<p>RAM: 8GB\</p>
-    \<p>Storage: 256GB SSD\</p>
-  \</div>`;
-}
-
-else if (realBudget < 800) {
-  html = `
-  \<div class="pc">
-    \<h3>Work PC\</h3>
-    \<p>CPU: Intel i5\</p>
-    \<p>RAM: 16GB\</p>
-    \<p>Storage: 512GB SSD\</p>
-  \</div>`;
-}
-
-else {
-  html = `
-  \<div class="pc">
-    \<h3>Pro Workstation\</h3>
-    \<p>CPU: Intel i7\</p>
-    \<p>RAM: 32GB\</p>
-    \<p>Storage: 1TB SSD\</p>
-  \</div>`;
+    if (budget <= 400) {
+      pc = `
+Ryzen 5 3600
+GTX 1660 Super
+16GB RAM
+500GB SSD
+B450 Motherboard
+500W PSU
+      `;
     }
 
+    else if (budget <= 550) {
+      pc = `
+Ryzen 5 5600
+RX 6600
+16GB RAM (2x8)
+1TB SSD
+B550 Motherboard
+550W PSU
+      `;
+    }
+
+    else if (budget <= 800) {
+      pc = `
+Ryzen 5 5600
+RTX 3060
+16GB RAM
+1TB NVMe SSD
+B550 Motherboard
+600W PSU
+      `;
+    }
+
+    else {
+      pc = `
+Ryzen 7 5800X
+RTX 4060
+32GB RAM
+1TB NVMe SSD
+B550/X570 Motherboard
+650W PSU
+      `;
+    }
+
+  } else {
+
+    if (budget <= 400) {
+      pc = `
+Ryzen 5 5600G
+16GB RAM
+500GB SSD
+      `;
+    }
+
+    else if (budget <= 700) {
+      pc = `
+Ryzen 7 5700G
+16GB RAM
+1TB SSD
+      `;
+    }
+
+    else {
+      pc = `
+Intel i7 / Ryzen 7
+32GB RAM
+1TB NVMe SSD
+      `;
+    }
   }
 
-  
+  return pc;
 }
+
+// ===== ВЫВОД =====
+function showResult() {
+  const pc = getPC(realBudget, type);
+
+  document.getElementById("result").innerHTML = `
+    <h2>Your PC Build</h2>
+    <p><b>Type:</b> ${type}</p>
+    <pre>${pc}</pre>
+  `;
+}
+
+function goBack() {
+  window.history.back();
+}
+
+showResult();
 </script>
-<a href="buy.html" class="buy-button">BUY</a>
 
-<style>
-.buy-button {
-    display: block;
-    width: 180px;
-    margin: 40px auto;
-    padding: 15px;
-
-    background: #777;
-    color: white;
-
-    text-align: center;
-    text-decoration: none;
-
-    border-radius: 10px;
-
-    font-size: 22px;
-    font-weight: bold;
-}
-</style>
 </body>
 </html>
-
