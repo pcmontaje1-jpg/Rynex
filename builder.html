@@ -1,56 +1,64 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>PC Builder</title>
+    <title>Rynex Builder</title>
 
     <style>
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-
-            /* твой фон */
-            background: radial-gradient(circle at center, #000000 20%, #111111 40%, #ffffff 100%);
             color: white;
+
+            /* ТОТ ЖЕ ФОН */
+            background: radial-gradient(circle at center, #000000 0%, #0a0a0a 40%, #ffffff 100%);
 
             height: 100vh;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            text-align: center;
+            width: 100%;
         }
 
         h1 {
-            margin-bottom: 40px;
+            margin-bottom: 20px;
+            font-size: 28px;
             letter-spacing: 2px;
         }
 
-        /* Слайдер */
+        .value {
+            margin-top: 15px;
+            font-size: 20px;
+        }
+
         input[type="range"] {
-            width: 300px;
+            width: 70%;
+            margin-top: 20px;
         }
 
-        /* Контейнер кнопки */
-        .btn-container {
-            margin-top: 60px;
-        }
-
-        /* КНОПКА */
+        /* КНОПКА ВНИЗУ */
         .btn {
-            display: inline-block;
+            position: absolute;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+
             padding: 15px 40px;
-            border: 2px solid #888;
-            color: white;
+            border: 2px solid #666;
+            color: #fff;
             text-decoration: none;
             font-size: 16px;
-            letter-spacing: 2px;
             border-radius: 10px;
+            background: transparent;
             transition: 0.3s;
-            background: none;
         }
 
         .btn:hover {
-            background: #888;
+            background: #666;
             color: black;
         }
     </style>
@@ -58,17 +66,40 @@
 
 <body>
 
-    <h1>Choose your budget</h1>
+<div class="container">
 
-    <!-- СЛАЙДЕР -->
-    <input type="range" min="500" max="5000" value="1000">
+    <h1>SELECT YOUR BUDGET</h1>
 
-    <!-- КНОПКА -->
-    <div class="btn-container">
-        <a href="#" class="btn">
-            Continue →
-        </a>
+    <input 
+        type="range" 
+        min="100" 
+        max="10000" 
+        value="1000" 
+        step="100" 
+        id="slider"
+    >
+
+    <div class="value" id="value">
+        €1000
     </div>
+
+</div>
+
+<!-- КНОПКА (ТОЛЬКО ОНА ИЗМЕНЕНА) -->
+<a href="#" class="btn">
+    Continue →
+</a>
+
+<script>
+    const slider = document.getElementById("slider");
+    const value = document.getElementById("value");
+
+    slider.oninput = function () {
+        value.innerText = "€" + this.value;
+    }
+</script>
 
 </body>
 </html>
+
+
