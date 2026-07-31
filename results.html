@@ -165,8 +165,7 @@ function buy() {
   .map-image {
     width: 100%;
     height: 180px;
-    background: url("https://maps.googleapis.com/maps/api/staticmap?center=C+Josep+Vicenc+Foix+36-37,Badalona,Spain&zoom=16&size=600x300&markers=color:red%7CC+Josep+Vicenc+Foix+36-37,Badalona,Spain") no-repeat center;
-    background-size: cover;
+    background: url("https://maps.google.com/maps?q=C%20Josep%20Vicenc%20Foix%2036-37%20Badalona%20Spain&z=16&output=embed") center/cover no-repeat;
   }
 
   .map-btn {
@@ -186,7 +185,14 @@ function buy() {
 </style>
 
 <div class="map-box">
-  <div class="map-image"></div>
+
+  <!-- КЛИКАБЕЛЬНАЯ КАРТА -->
+  <a href="https://www.google.com/maps/search/?api=1&query=C+Josep+Vicenc+Foix+36-37+Badalona+Spain" target="_blank">
+    <img 
+      src="https://maps.googleapis.com/maps/api/staticmap?center=Badalona,Spain&zoom=14&size=600x300&key=AIzaSyD-FAKE-KEY"
+      style="width:100%; height:180px; object-fit:cover;"
+      alt="Map">
+  </a>
 
   <a 
     class="map-btn"
@@ -194,5 +200,5 @@ function buy() {
     target="_blank">
     Open in Google Maps
   </a>
+
 </div>
-</html>
