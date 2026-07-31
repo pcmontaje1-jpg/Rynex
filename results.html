@@ -1,3 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>PC Builder</title>
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  color: white;
+  text-align: center;
+
+  background: radial-gradient(circle at center, black 0%, #222 40%, #ccc 100%);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  text-align: center;
+}
+
+.btn {
+  padding: 15px 30px;
+  margin: 10px;
+  border: none;
+  border-radius: 10px;
+  background: #555;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.btn:hover {
+  background: #777;
+  transform: scale(1.05);
+}
+
+.card {
+  margin-top: 25px;
+  background: rgba(0,0,0,0.85);
+  padding: 25px;
+  border-radius: 12px;
+  display: inline-block;
+  min-width: 320px;
+  box-shadow: 0 0 20px rgba(0,0,0,.5);
+}
+
+.card h2 {
+  margin-top: 0;
+  color: #00c8ff;
+}
+
+.card p {
+  line-height: 1.8;
+  font-size: 17px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Your Budget: <span id="budget"></span>€</h1>
+
+<div id="choose">
+  <button class="btn" onclick="buildPC('gaming')">🎮 Gaming</button>
+  <button class="btn" onclick="buildPC('work')">💼 Work</button>
+</div>
+
+<div id="result"></div>
+
+</div>
+
+<script>
 // получаем бюджет из ссылки
 const params = new URLSearchParams(window.location.search);
 const clientBudget = parseInt(params.get("budget")) || 700;
@@ -111,6 +191,10 @@ function buildPC(type) {
 function buy() {
   window.location.href = "buy.html";
 }
+</script>
+
+</body>
+</html>
 </script>
 
 </body>
