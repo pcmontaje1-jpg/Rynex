@@ -149,5 +149,50 @@ function buy() {
 }
 </script>
 
-</body>
+</body><style>
+  .map-box {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 320px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #111;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    font-family: Arial, sans-serif;
+  }
+
+  .map-image {
+    width: 100%;
+    height: 180px;
+    background: url("https://maps.googleapis.com/maps/api/staticmap?center=C+Josep+Vicenc+Foix+36-37,Badalona,Spain&zoom=16&size=600x300&markers=color:red%7CC+Josep+Vicenc+Foix+36-37,Badalona,Spain") no-repeat center;
+    background-size: cover;
+  }
+
+  .map-btn {
+    display: block;
+    text-align: center;
+    padding: 12px;
+    background: #444;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.2s;
+  }
+
+  .map-btn:hover {
+    background: #666;
+  }
+</style>
+
+<div class="map-box">
+  <div class="map-image"></div>
+
+  <a 
+    class="map-btn"
+    href="https://www.google.com/maps/search/?api=1&query=C+Josep+Vicenc+Foix+36-37+Badalona+Spain"
+    target="_blank">
+    Open in Google Maps
+  </a>
+</div>
 </html>
