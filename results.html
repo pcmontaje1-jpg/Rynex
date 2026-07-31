@@ -86,7 +86,10 @@ document.getElementById("budget").innerText = clientBudget;
 
 // прибыль
 let profit = 100;
-if (clientBudget >= 800) profit = 150;
+
+if (clientBudget > 300) {
+    profit = 150;
+}
 
 const realBudget = clientBudget - profit;
 
