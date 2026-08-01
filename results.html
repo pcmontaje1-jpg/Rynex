@@ -147,85 +147,98 @@ function getProfit(budget) {
 
 const realBudget = clientBudget - getProfit(clientBudget);
 
-// сборки
 function getBuild(budget, type) {
 
   if (type === "gaming") {
 
-    if (budget <= 300) return `
-Ryzen 5 4600G<br>
-Vega Graphics<br>
-16GB RAM<br>
-500GB SSD<br>
-PSU 500W`;
-
-    if (budget <= 600) return `
-Ryzen 5 5500<br>
-RX 6500 XT<br>
-16GB RAM<br>
+    if (budget <= 400) return `
+Ryzen 5 5600G<br>
+Integrated Vega Graphics<br>
+16GB DDR4 RAM<br>
 1TB SSD<br>
-PSU 550W`;
+PSU 500W Bronze`;
 
-    if (budget <= 1000) return `
+    if (budget <= 700) return `
 Ryzen 5 5600<br>
 RX 6600<br>
-16GB RAM<br>
-1TB NVMe<br>
-PSU 600W`;
+16GB DDR4 RAM<br>
+1TB NVMe SSD<br>
+PSU 600W Bronze`;
+
+    if (budget <= 1000) return `
+Ryzen 5 5600X<br>
+RX 6700 XT<br>
+16GB DDR4 RAM<br>
+1TB NVMe SSD<br>
+PSU 650W Gold`;
 
     if (budget <= 1500) return `
 Ryzen 5 7600<br>
-RTX 4060<br>
-32GB RAM<br>
-1TB NVMe<br>
-PSU 650W`;
+RTX 4060 Ti<br>
+32GB DDR5 RAM<br>
+1TB NVMe Gen4<br>
+PSU 650W Gold`;
 
     if (budget <= 2200) return `
 Ryzen 7 7700X<br>
 RTX 4070 Super<br>
-32GB RAM<br>
-2TB NVMe<br>
-PSU 750W`;
+32GB DDR5 RAM<br>
+2TB NVMe Gen4<br>
+PSU 750W Gold`;
+
+    if (budget <= 3000) return `
+Ryzen 7 7800X3D<br>
+RTX 4080 Super<br>
+32GB DDR5 RAM<br>
+2TB NVMe Gen4<br>
+PSU 850W Gold`;
 
     return `
-Ryzen 9 7900X<br>
-RTX 4080 Super<br>
-64GB RAM<br>
-2TB NVMe<br>
-PSU 850W`;
+Ryzen 9 7950X3D<br>
+RTX 4090<br>
+64GB DDR5 RAM<br>
+2TB NVMe Gen4<br>
+PSU 1000W Gold`;
   }
 
+  // WORK / CREATOR
   else {
 
-    if (budget <= 300) return `
+    if (budget <= 500) return `
 Ryzen 5 5600G<br>
 16GB RAM<br>
-500GB SSD<br>
+1TB SSD<br>
 PSU 500W`;
 
-    if (budget <= 700) return `
-Ryzen 5 5600<br>
-16GB RAM<br>
-1TB SSD<br>
-PSU 550W`;
-
-    if (budget <= 1200) return `
-Ryzen 7 5700X<br>
-32GB RAM<br>
+    if (budget <= 900) return `
+Ryzen 5 7600<br>
+32GB DDR5 RAM<br>
 1TB NVMe<br>
 PSU 600W`;
 
-    if (budget <= 2000) return `
+    if (budget <= 1500) return `
 Ryzen 7 7700X<br>
-32GB RAM<br>
+32GB DDR5 RAM<br>
 2TB NVMe<br>
-PSU 700W`;
+PSU 650W`;
+
+    if (budget <= 2500) return `
+Ryzen 9 7900X<br>
+64GB DDR5 RAM<br>
+2TB NVMe<br>
+PSU 750W`;
+
+    if (budget <= 4000) return `
+Ryzen 9 7950X<br>
+64GB DDR5 RAM<br>
+4TB NVMe<br>
+PSU 850W`;
 
     return `
-Ryzen 9 7950X<br>
-64GB RAM<br>
-2TB NVMe<br>
-PSU 850W`;
+Ryzen 9 7950X3D<br>
+128GB DDR5 RAM<br>
+4TB NVMe Gen4<br>
+PSU 1000W`;
   }
 }
 
