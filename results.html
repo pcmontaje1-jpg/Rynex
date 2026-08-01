@@ -12,18 +12,27 @@ body {
   color: white;
   text-align: center;
 
-  background: radial-gradient(circle at center, black 0%, #333 50%, #ccc 100%);
+  background: radial-gradient(circle at center, black 0%, #222 40%, #ccc 100%);
+  background-size: 200% 200%;
+  animation: bgMove 12s ease infinite;
 
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.container {
-  text-align: center;
+@keyframes bgMove {
+  0% { background-position: center; }
+  50% { background-position: top; }
+  100% { background-position: center; }
 }
 
-/* кнопки */
+.container {
+  text-align: center;
+  animation: fadeIn 0.6s ease;
+}
+
+/* КНОПКИ */
 .btn {
   padding: 15px 30px;
   margin: 10px;
@@ -33,28 +42,72 @@ body {
   color: white;
   font-size: 16px;
   cursor: pointer;
+  transition: all 0.25s ease;
+
+  animation: pulse 2.5s infinite;
 }
 
-/* hover */
 .btn:hover {
-  background: #777;
+  background: #888;
+  transform: scale(1.1);
+  box-shadow: 0 0 15px #aaa;
 }
 
-/* карточка */
+.btn:active {
+  transform: scale(0.9);
+}
+
+/* ПУЛЬС */
+@keyframes pulse {
+  0% { box-shadow: 0 0 0px #fff; }
+  50% { box-shadow: 0 0 12px #aaa; }
+  100% { box-shadow: 0 0 0px #fff; }
+}
+
+/* КАРТОЧКА */
 .card {
-  margin-top: 20px;
-  background: rgba(0,0,0,0.8);
-  padding: 20px;
-  border-radius: 10px;
+  margin-top: 25px;
+  background: rgba(0,0,0,0.85);
+  padding: 25px;
+  border-radius: 12px;
   display: inline-block;
   min-width: 300px;
 
   opacity: 0;
-  animation: fadeIn 0.5s forwards;
+  transform: translateY(30px) scale(0.95);
+  animation: cardIn 0.5s ease forwards;
 }
 
-/* простая анимация */
+.card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 20px rgba(255,255,255,0.25);
+}
+
+@keyframes cardIn {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ТЕКСТ ПО СТРОКАМ */
+.card p {
+  opacity: 0;
+  animation: textFade 0.5s forwards;
+}
+
+.card p:nth-child(2) { animation-delay: 0.1s; }
+.card p:nth-child(3) { animation-delay: 0.2s; }
+.card p:nth-child(4) { animation-delay: 0.3s; }
+.card p:nth-child(5) { animation-delay: 0.4s; }
+
+@keyframes textFade {
+  to { opacity: 1; }
+}
+
+/* появление страницы */
 @keyframes fadeIn {
+  from { opacity: 0; }
   to { opacity: 1; }
 }
 </style>
@@ -64,12 +117,11 @@ body {
 
 <div class="container">
 
-  <h1>💻 PC Builder</h1>
+  <h1>Your Budget: <span id="budget"></span>€</h1>
 
   <div id="choose">
-    <p>Choose type:</p>
-    <button class="btn" onclick="buildPC('gaming')">Gaming</button>
-    <button class="btn" onclick="buildPC('work')">Work</button>
+    <button class="btn" onclick="buildPC('gaming')">🎮 Gaming</button>
+    <button class="btn" onclick="buildPC('work')">💼 Work</button>
   </div>
 
   <div id="result"></div>
@@ -78,64 +130,131 @@ body {
 
 <script>
 
-let clientBudget = 1000;
-let realBudget = 800;
+// бюджет
+const params = new URLSearchParams(window.location.search);
+const clientBudget = parseInt(params.get("budget")) || 700;
+document.getElementById("budget").innerText = clientBudget;
 
-/* Ryzen сборки */
-function getBuild(type) {
-
-  const builds = [
-`CPU: Ryzen 9 7950X
-GPU: RTX 4090
-RAM: 64GB DDR5
-SSD: 2TB NVMe
-PSU: 1000W Gold
-Cooling: Liquid AIO`,
-
-`CPU: Ryzen 9 7900X
-GPU: RTX 4080
-RAM: 32GB DDR5
-SSD: 2TB NVMe
-PSU: 850W Gold
-Cooling: Liquid AIO`,
-
-`CPU: Ryzen 7 7800X3D
-GPU: RTX 4070 Ti
-RAM: 32GB DDR5
-SSD: 1TB NVMe
-PSU: 750W Gold
-Cooling: Air Premium`
-  ];
-
-  return builds[Math.floor(Math.random() * builds.length)];
+// прибыль
+function getProfit(budget) {
+  if (budget < 300) return 0;
+  if (budget < 800) return 200;
+  if (budget < 1500) return 300;
+  if (budget < 2500) return 400;
+  if (budget < 4000) return 600;
+  return 800;
 }
 
-/* кнопки теперь работают */
+const realBudget = clientBudget - getProfit(clientBudget);
+
+// сборки
+function getBuild(budget, type) {
+
+  if (type === "gaming") {
+
+    if (budget <= 300) return `
+Ryzen 5 4600G<br>
+Vega Graphics<br>
+16GB RAM<br>
+500GB SSD<br>
+PSU 500W`;
+
+    if (budget <= 600) return `
+Ryzen 5 5500<br>
+RX 6500 XT<br>
+16GB RAM<br>
+1TB SSD<br>
+PSU 550W`;
+
+    if (budget <= 1000) return `
+Ryzen 5 5600<br>
+RX 6600<br>
+16GB RAM<br>
+1TB NVMe<br>
+PSU 600W`;
+
+    if (budget <= 1500) return `
+Ryzen 5 7600<br>
+RTX 4060<br>
+32GB RAM<br>
+1TB NVMe<br>
+PSU 650W`;
+
+    if (budget <= 2200) return `
+Ryzen 7 7700X<br>
+RTX 4070 Super<br>
+32GB RAM<br>
+2TB NVMe<br>
+PSU 750W`;
+
+    return `
+Ryzen 9 7900X<br>
+RTX 4080 Super<br>
+64GB RAM<br>
+2TB NVMe<br>
+PSU 850W`;
+  }
+
+  else {
+
+    if (budget <= 300) return `
+Ryzen 5 5600G<br>
+16GB RAM<br>
+500GB SSD<br>
+PSU 500W`;
+
+    if (budget <= 700) return `
+Ryzen 5 5600<br>
+16GB RAM<br>
+1TB SSD<br>
+PSU 550W`;
+
+    if (budget <= 1200) return `
+Ryzen 7 5700X<br>
+32GB RAM<br>
+1TB NVMe<br>
+PSU 600W`;
+
+    if (budget <= 2000) return `
+Ryzen 7 7700X<br>
+32GB RAM<br>
+2TB NVMe<br>
+PSU 700W`;
+
+    return `
+Ryzen 9 7950X<br>
+64GB RAM<br>
+2TB NVMe<br>
+PSU 850W`;
+  }
+}
+
+// выбор
 function buildPC(type) {
 
-  const build = getBuild(type);
-  const result = document.getElementById("result");
+  const build = getBuild(realBudget, type);
 
   document.getElementById("choose").style.display = "none";
 
-  result.innerHTML = `
+  document.getElementById("result").innerHTML = `
     <div class="card">
       <h2>${type === 'gaming' ? 'Gaming PC' : 'Work PC'}</h2>
-      <pre style="text-align:left">${build}</pre>
+      <p>${build}</p>
       <p><b>Price:</b> ${clientBudget}€</p>
-      <button class="btn" onclick="buy()">Buy</button>
+      <button class="btn" onclick="buy()">🛒 Buy Now</button>
     </div>
   `;
 }
 
+// покупка
 function buy() {
-  alert("Sold!");
-
-  clientBudget += Math.floor(Math.random() * 100 + 200);
-
-  document.getElementById("result").innerHTML = "";
-  document.getElementById("choose").style.display = "block";
+  window.location.href = "buy.html";
 }
+
+</script>
+
+</body>
+</html>
 
 </script>
 
