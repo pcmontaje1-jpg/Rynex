@@ -1,164 +1,146 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>PC Builder PRO</title>
+<title>PC Builder</title>
 
 <style>
 body {
-    margin: 0;
-    font-family: Arial;
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-    color: white;
-    text-align: center;
-}
+  margin: 0;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  color: white;
+  text-align: center;
 
-h1 {
-    margin-top: 20px;
+  background: radial-gradient(circle at center, black 0%, #333 50%, #ccc 100%);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .container {
-    margin-top: 30px;
+  text-align: center;
 }
 
-button {
-    padding: 15px 25px;
-    margin: 10px;
-    border: none;
-    border-radius: 10px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.3s;
+/* кнопки */
+.btn {
+  padding: 15px 30px;
+  margin: 10px;
+  border: none;
+  border-radius: 10px;
+  background: #555;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
 }
 
-button:hover {
-    transform: scale(1.1);
+/* hover */
+.btn:hover {
+  background: #777;
 }
 
-.gaming {
-    background: #ff4d4d;
-    color: white;
+/* карточка */
+.card {
+  margin-top: 20px;
+  background: rgba(0,0,0,0.8);
+  padding: 20px;
+  border-radius: 10px;
+  display: inline-block;
+  min-width: 300px;
+
+  opacity: 0;
+  animation: fadeIn 0.5s forwards;
 }
 
-.work {
-    background: #4da6ff;
-    color: white;
-}
-
-.build {
-    margin-top: 30px;
-    padding: 20px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 15px;
-    display: none;
-    animation: fadeIn 0.5s ease forwards;
-}
-
+/* простая анимация */
 @keyframes fadeIn {
-    from {opacity:0; transform: translateY(20px);}
-    to {opacity:1; transform: translateY(0);}
-}
-
-.part {
-    margin: 5px 0;
-}
-
-.profit {
-    margin-top: 10px;
-    font-size: 20px;
-    color: #00ffcc;
+  to { opacity: 1; }
 }
 </style>
 </head>
 
 <body>
 
-<h1>🔥 PC Builder PRO</h1>
-
 <div class="container">
-    <button class="gaming" onclick="showBuild('gaming')">🎮 Gaming</button>
-    <button class="work" onclick="showBuild('work')">💼 Рабочий</button>
-</div>
 
-<div id="build" class="build"></div>
+  <h1>💻 PC Builder</h1>
+
+  <div id="choose">
+    <p>Choose type:</p>
+    <button class="btn" onclick="buildPC('gaming')">Gaming</button>
+    <button class="btn" onclick="buildPC('work')">Work</button>
+  </div>
+
+  <div id="result"></div>
+
+</div>
 
 <script>
 
-const builds = {
-    gaming: [
-        {
-            name: "Gaming Build #1",
-            cpu: "Ryzen 5 5600",
-            gpu: "RTX 3060",
-            ram: "16GB DDR4",
-            ssd: "1TB NVMe",
-            psu: "600W Bronze",
-            motherboard: "B550",
-            profit: "220€"
-        },
-        {
-            name: "Gaming Build #2",
-            cpu: "i5-12400F",
-            gpu: "RTX 4060",
-            ram: "16GB DDR4",
-            ssd: "1TB NVMe",
-            psu: "650W Gold",
-            motherboard: "B660",
-            profit: "270€"
-        }
-    ],
+let clientBudget = 1000;
+let realBudget = 800;
 
-    work: [
-        {
-            name: "Work Build #1",
-            cpu: "Ryzen 7 5700X",
-            gpu: "RTX 3060",
-            ram: "32GB DDR4",
-            ssd: "1TB NVMe",
-            psu: "650W",
-            motherboard: "B550",
-            profit: "240€"
-        },
-        {
-            name: "Work Build #2",
-            cpu: "i7-12700",
-            gpu: "RTX 4060",
-            ram: "32GB DDR5",
-            ssd: "2TB NVMe",
-            psu: "750W Gold",
-            motherboard: "B760",
-            profit: "300€"
-        }
-    ]
-};
+/* Ryzen сборки */
+function getBuild(type) {
 
-function showBuild(type) {
-    const container = document.getElementById("build");
+  const builds = [
+`CPU: Ryzen 9 7950X
+GPU: RTX 4090
+RAM: 64GB DDR5
+SSD: 2TB NVMe
+PSU: 1000W Gold
+Cooling: Liquid AIO`,
 
-    // очищаем
-    container.innerHTML = "";
-    container.style.display = "block";
+`CPU: Ryzen 9 7900X
+GPU: RTX 4080
+RAM: 32GB DDR5
+SSD: 2TB NVMe
+PSU: 850W Gold
+Cooling: Liquid AIO`,
 
-    builds[type].forEach((pc, index) => {
-        const div = document.createElement("div");
+`CPU: Ryzen 7 7800X3D
+GPU: RTX 4070 Ti
+RAM: 32GB DDR5
+SSD: 1TB NVMe
+PSU: 750W Gold
+Cooling: Air Premium`
+  ];
 
-        div.innerHTML = `
-            <h2>${pc.name}</h2>
-            <div class="part">🧠 CPU: ${pc.cpu}</div>
-            <div class="part">🎮 GPU: ${pc.gpu}</div>
-            <div class="part">⚡ RAM: ${pc.ram}</div>
-            <div class="part">💾 SSD: ${pc.ssd}</div>
-            <div class="part">🔌 PSU: ${pc.psu}</div>
-            <div class="part">🧩 Motherboard: ${pc.motherboard}</div>
-            <div class="profit">💰 Выручка: ${pc.profit}</div>
-            <hr>
-        `;
-
-        div.style.animation = "fadeIn 0.5s ease";
-
-        container.appendChild(div);
-    });
+  return builds[Math.floor(Math.random() * builds.length)];
 }
+
+/* кнопки теперь работают */
+function buildPC(type) {
+
+  const build = getBuild(type);
+  const result = document.getElementById("result");
+
+  document.getElementById("choose").style.display = "none";
+
+  result.innerHTML = `
+    <div class="card">
+      <h2>${type === 'gaming' ? 'Gaming PC' : 'Work PC'}</h2>
+      <pre style="text-align:left">${build}</pre>
+      <p><b>Price:</b> ${clientBudget}€</p>
+      <button class="btn" onclick="buy()">Buy</button>
+    </div>
+  `;
+}
+
+function buy() {
+  alert("Sold!");
+
+  clientBudget += Math.floor(Math.random() * 100 + 200);
+
+  document.getElementById("result").innerHTML = "";
+  document.getElementById("choose").style.display = "block";
+}
+
+</script>
+
+</body>
+</html>
 
 </script>
 
