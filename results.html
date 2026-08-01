@@ -1,22 +1,4 @@
-type) {
 
-  const build = getBuild(realBudget, type);
-
-  document.getElementById("choose").style.display = "none";
-
-  document.getElementById("result").innerHTML = `
-    <div class="card">
-      <h2>${type === 'gaming' ? 'Gaming PC' : 'Work PC'}</h2>
-      <p>${build}</p>
-      <p><b>Price:</b> ${clientBudget}€</p>
-      <button class="buy-btn" onclick="buy()">🛒 Buy Now!</button>
-    </div>
-  `;
-}
-
-function buy() {
-  window.location.href = "buy.html";
-}
 </script>
 
 </body>
