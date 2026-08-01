@@ -13,49 +13,135 @@ body {
   text-align: center;
 
   background: radial-gradient(circle at center, black 0%, #222 40%, #ccc 100%);
+  background-size: 120%;
+  animation: bgMove 12s infinite alternate ease-in-out;
 
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.container {
-  text-align: center;
+/* фон */
+@keyframes bgMove {
+  from { background-size: 120%; }
+  to { background-size: 140%; }
 }
 
+/* контейнер */
+.container {
+  animation: fadeIn 1s ease;
+}
+
+/* плавное появление */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* кнопки */
 .btn {
   padding: 15px 30px;
   margin: 10px;
   border: none;
-  border-radius: 10px;
-  background: #555;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.1);
   color: white;
   font-size: 16px;
   cursor: pointer;
+
+  backdrop-filter: blur(10px);
+  transition: 0.3s;
 }
 
+/* glow */
 .btn:hover {
-  background: #777;
+  transform: scale(1.07);
+  background: rgba(255,255,255,0.2);
+  box-shadow: 0 0 15px rgba(255,255,255,0.4);
 }
 
+/* клик */
+.btn:active {
+  transform: scale(0.95);
+}
+
+/* карточка */
 .card {
   margin-top: 25px;
-  background: rgba(0,0,0,0.85);
+  background: rgba(0,0,0,0.75);
   padding: 25px;
-  border-radius: 12px;
-  display: inline-block;
+  border-radius: 15px;
   min-width: 320px;
+
+  backdrop-filter: blur(15px);
+
+  animation: cardShow 0.6s ease;
+}
+
+/* анимация карточки */
+@keyframes cardShow {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* поочередный вывод */
+.line {
+  opacity: 0;
+  transform: translateX(-20px);
+  animation: lineShow 0.5s forwards;
+}
+
+@keyframes lineShow {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* печатающий текст */
+.typing {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid white;
+  animation: typing 2s steps(30), blink .7s infinite;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink {
+  50% { border-color: transparent }
+}
+
+/* кнопка покупки пульсирует */
+.buy-btn {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 5px white; }
+  50% { box-shadow: 0 0 20px white; }
+  100% { box-shadow: 0 0 5px white; }
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="container" id="app">
 
-  <h1>Your Budget: <span id="budget"></span>€</h1>
+  <h1 class="typing">💻 PC Builder</h1>
 
   <div id="choose">
+    <p>Choose type:</p>
     <button class="btn" onclick="buildPC('gaming')">🎮 Gaming</button>
     <button class="btn" onclick="buildPC('work')">💼 Work</button>
   </div>
@@ -66,144 +152,87 @@ body {
 
 <script>
 
-// БЮДЖЕТ
-const params = new URLSearchParams(window.location.search);
-const clientBudget = parseInt(params.get("budget")) || 1000;
+let clientBudget = 1000;
+let realBudget = 800;
 
-document.getElementById("budget").innerText = clientBudget;
-
-// 💰 ПРИБЫЛЬ (НЕ ПАЛИТСЯ)
-function getProfit(budget) {
-  if (budget < 300) return 0;
-  if (budget < 800) return 150;
-  if (budget < 1500) return 200;
-  if (budget < 3000) return 300;
-  return 500;
-}
-
-const realBudget = clientBudget - getProfit(clientBudget);
-
-// 🔥 ТОПОВЫЕ СБОРКИ
+/* топовые Ryzen сборки */
 function getBuild(budget, type) {
 
-  // 🎮 GAMING
-  if (type === "gaming") {
+  const builds = [
+`CPU: Ryzen 9 7950X
+GPU: RTX 4090
+RAM: 64GB DDR5
+SSD: 2TB NVMe
+PSU: 1000W Gold
+Cooling: Liquid AIO`,
 
-    if (budget <= 300) return `
-Ryzen 5 5600G<br>
-Radeon Vega Graphics<br>
-16GB DDR4 3200MHz<br>
-500GB SSD`;
+`CPU: Ryzen 9 7900X
+GPU: RTX 4080
+RAM: 32GB DDR5
+SSD: 2TB NVMe
+PSU: 850W Gold
+Cooling: Liquid AIO`,
 
-    if (budget <= 600) return `
-Ryzen 5 5600<br>
-RX 6650 XT<br>
-16GB DDR4 3600MHz<br>
-1TB NVMe`;
+`CPU: Ryzen 7 7800X3D
+GPU: RTX 4070 Ti
+RAM: 32GB DDR5
+SSD: 1TB NVMe
+PSU: 750W Gold
+Cooling: Air Premium`
+  ];
 
-    if (budget <= 1000) return `
-Ryzen 5 7600<br>
-RX 7600 XT<br>
-32GB DDR5 6000MHz<br>
-1TB NVMe Gen4`;
-
-    if (budget <= 1500) return `
-Ryzen 7 7700X<br>
-RTX 4070<br>
-32GB DDR5 6000MHz<br>
-1TB NVMe Gen4`;
-
-    if (budget <= 2500) return `
-Ryzen 7 7800X3D<br>
-RTX 4070 Ti Super<br>
-32GB DDR5 6400MHz<br>
-2TB NVMe Gen4`;
-
-    if (budget <= 4000) return `
-Ryzen 9 7900X3D<br>
-RTX 4080 Super<br>
-64GB DDR5 6400MHz<br>
-2TB NVMe Gen4`;
-
-    if (budget <= 7000) return `
-Ryzen 9 7950X3D<br>
-RTX 4090<br>
-64GB DDR5 6800MHz<br>
-4TB NVMe Gen4`;
-
-    return `
-Ryzen 9 9950X3D (Next-Gen)<br>
-RTX 5090 / 5090 Ti<br>
-128GB DDR5 7200MHz<br>
-4TB NVMe Gen5`;
-  }
-
-  // 💼 WORK
-  else {
-
-    if (budget <= 300) return `
-Ryzen 5 5600G<br>
-16GB RAM<br>
-500GB SSD`;
-
-    if (budget <= 600) return `
-Ryzen 5 5600<br>
-32GB DDR4<br>
-1TB SSD`;
-
-    if (budget <= 1000) return `
-Ryzen 7 7700<br>
-32GB DDR5<br>
-1TB NVMe`;
-
-    if (budget <= 1500) return `
-Ryzen 7 7700X<br>
-64GB DDR5<br>
-1TB NVMe`;
-
-    if (budget <= 2500) return `
-Ryzen 9 7900X<br>
-64GB DDR5<br>
-2TB NVMe`;
-
-    if (budget <= 4000) return `
-Ryzen 9 7950X<br>
-96GB DDR5<br>
-2TB NVMe`;
-
-    if (budget <= 7000) return `
-Ryzen 9 7950X3D<br>
-128GB DDR5<br>
-4TB NVMe`;
-
-    return `
-Ryzen 9 9950X3D (Next-Gen)<br>
-192GB DDR5 ECC<br>
-4TB NVMe Gen5`;
-  }
+  return builds[Math.floor(Math.random() * builds.length)];
 }
 
-// ВЫБОР
 function buildPC(type) {
 
   const build = getBuild(realBudget, type);
+  const result = document.getElementById("result");
 
-  document.getElementById("choose").style.display = "none";
+  document.getElementById("choose").style.opacity = "0";
 
-  document.getElementById("result").innerHTML = `
-    <div class="card">
-      <h2>${type === 'gaming' ? 'Gaming PC' : 'Work PC'}</h2>
-      <p>${build}</p>
-      <p><b>Total Price:</b> ${clientBudget}€</p>
-      <button class="btn" onclick="buy()">🛒 Buy Now!</button>
-    </div>
-  `;
+  setTimeout(() => {
+    document.getElementById("choose").style.display = "none";
+
+    const lines = build.split("\n");
+
+    let html = `<div class="card">
+      <h2>${type === 'gaming' ? '🎮 Gaming PC' : '💼 Work PC'}</h2>`;
+
+    lines.forEach((line, i) => {
+      html += <p class="line" style="animation-delay:${i * 0.2}s">${line}</p>;
+    });
+
+    html += `
+      <p class="line" style="animation-delay:1s"><b>Price:</b> ${clientBudget}€</p>
+      <button class="btn buy-btn" onclick="buy()">🛒 Buy Now</button>
+    </div>`;
+
+    result.innerHTML = html;
+
+  }, 400);
 }
 
-// ПОКУПКА
 function buy() {
-  window.location.href = "buy.html";
+
+  alert("💸 Sold!");
+
+  // увеличиваем прибыль
+  clientBudget += Math.floor(Math.random() * 50 + 200);
+
+  // возврат назад с анимацией
+  document.getElementById("result").innerHTML = "";
+  document.getElementById("choose").style.display = "block";
+
+  setTimeout(() => {
+    document.getElementById("choose").style.opacity = "1";
+  }, 100);
 }
+
+</script>
+
+</body>
+</html>
 
 </script>
 
