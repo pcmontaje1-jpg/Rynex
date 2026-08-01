@@ -1,57 +1,180 @@
-  <!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>PC Builder</title>
+
 <style>
-body{margin:0;height:100vh;font-family:Arial,sans-serif;color:#fff;text-align:center;background:radial-gradient(circle at center,#000 0%,#222 40%,#aaa 100%);display:flex;justify-content:center;align-items:center}
-.container{animation:fadeIn 1s ease}
-.btn{padding:15px 30px;margin:10px;border:none;border-radius:10px;background:#555;color:#fff;font-size:16px;cursor:pointer;transition:0.3s}
-.btn:hover{background:#888;transform:scale(1.05)}
-.card{margin-top:25px;background:rgba(0,0,0,0.9);padding:25px;border-radius:12px;display:inline-block;min-width:320px;animation:fadeInUp 0.6s ease}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+body {
+  margin: 0;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  color: white;
+  text-align: center;
+  background: radial-gradient(circle at center, black 0%, #222 40%, #aaa 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container {
+  animation: fadeIn 1s ease;
+}
+.btn {
+  padding: 15px 30px;
+  margin: 10px;
+  border: none;
+  border-radius: 10px;
+  background: #555;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.btn:hover {
+  background: #888;
+  transform: scale(1.05);
+}
+.card {
+  margin-top: 25px;
+  background: rgba(0,0,0,0.9);
+  padding: 35px;
+  border-radius: 12px;
+  display: inline-block;
+  min-width: 350px;
+  animation: fadeInUp 0.6s ease;
+}
+.card h2 {
+  margin-bottom: 20px;
+}
+.card p {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #ccc;
+}
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+input {
+  padding: 12px 20px;
+  margin: 10px;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  width: 200px;
+  text-align: center;
+  background: rgba(255,255,255,0.1);
+  color: white;
+  border: 2px solid #555;
+}
+input:focus {
+  outline: none;
+  border-color: #888;
+}
 </style>
 </head>
+
 <body>
 
 <div class="container">
-  <h1>Your Budget: <span id="budget"></span>€</h1>
-  <div id="choose">
-    <button class="btn" onclick="buildPC('gaming')">🎮 Gaming</button>
-    <button class="btn" onclick="buildPC('work')">💼 Work</button>
+
+  <h1>PC Builder</h1>
+  
+  <div id="step1">
+    <p style="font-size: 20px; margin-bottom: 20px;">Enter your budget:</p>
+    <input type="number" id="budgetInput" placeholder="e.g. 1000" min="100" value="1000">
+    <br>
+    <button class="btn" onclick="selectBudget()">➡️ Next</button>
   </div>
+
+  <div id="step2" style="display: none;">
+    <h1>Your Budget: <span id="budgetDisplay"></span>€</h1>
+    <div id="choose">
+      <button class="btn" onclick="buildPC('gaming')">🎮 Gaming</button>
+      <button class="btn" onclick="buildPC('work')">💼 Work</button>
+    </div>
+  </div>
+
   <div id="result"></div>
+
 </div>
 
 <script>
-// ====== BUDGET ======
-const params = new URLSearchParams(window.location.search);
-const clientBudget = parseInt(params.get("budget")) || 700;
-document.getElementById("budget").innerText = clientBudget;
+let clientBudget = 1000;
 
-// ====== PROFIT = +20-30€ EXTRA (BUFFER) ======
-const profit = clientBudget + 20 + Math.floor(Math.random() * 10);
-const realBudget = clientBudget; // клиент платит реальную цену
+// Шаг 1: выбор бюджета
+function selectBudget() {
+  const input = document.getElementById("budgetInput");
+  let value = parseInt(input.value);
+  
+  if (isNaN(value) || value < 50) {
+    alert("Please enter a valid budget (minimum 50€)");
+    return;
+  }
+  
+  clientBudget = value;
+  document.getElementById("step1").style.display = "none";
+  document.getElementById("step2").style.display = "block";
+  document.getElementById("budgetDisplay").innerText = clientBudget;
+}
 
-// ====== REAL COMPONENTS 2026 (PRICES MATCH BUDGET) ======
+// прибыль (20-30 евро запас)
+const profit = 20 + Math.floor(Math.random() * 11);
+const realBudget = clientBudget - profit;
+
+// сборки (скрытые, только для расчёта)
 function getBuild(budget, type) {
   if (type === "gaming") {
-    if (budget <= 400) return {
-      cpu:'AMD Ryzen 5 5600', mobo:'MSI B550M PRO-VDH',
-      ram:'Kingston 16GB DDR4 3200MHz',
-      gpu:'XFX Radeon RX 6600 8GB',
-      storage:'Kingston 500GB NVMe SSD',
-      psu:'Corsair CV550 550W 80+ Bronze',
-      cooler:'AMD Wraith Stealth'
-    };
-    if (budget <= 600) return {
-      cpu:'AMD Ryzen 5 5600X', mobo:'ASUS TUF B550M-PLUS',
-      ram:'Corsair 16GB DDR4 3600MHz',
-      gpu:'PowerColor Radeon RX 6600 XT 8GB',
-      storage:'Samsung 970 EVO 500GB NVMe',
-      psu:'Corsair CV650 650W 80+ Bronze',
-      cooler:'AMD Wraith
+    if (budget <= 400) return "Ryzen 5 5600 + RX 6600";
+    if (budget <= 600) return "Ryzen 5 5600X + RX 6600 XT";
+    if (budget <= 800) return "Ryzen 5 7600 + RX 7600 XT";
+    if (budget <= 1100) return "Ryzen 7 7700X + RX 7800 XT";
+    if (budget <= 1500) return "Ryzen 7 7800X3D + RTX 4070 SUPER";
+    if (budget <= 2000) return "Ryzen 7 9800X3D + RTX 5080";
+    return "Ryzen 9 9950X3D + RTX 5090";
+  } else {
+    if (budget <= 400) return "Ryzen 5 5600G + Integrated";
+    if (budget <= 600) return "Ryzen 7 5700G + Integrated";
+    if (budget <= 800) return "Ryzen 7 5700X + T400";
+    if (budget <= 1100) return "Ryzen 9 7900 + RTX 4060";
+    if (budget <= 1500) return "Ryzen 9 7900X + RTX 4070";
+    if (budget <= 2000) return "Ryzen 9 9950X + RTX 4070 Ti SUPER";
+    return "Ryzen 9 9950X3D + RTX 5090";
+  }
+}
+
+// выбор
+function buildPC(type) {
+  const build = getBuild(realBudget, type);
+  
+  document.getElementById("choose").style.display = "none";
+
+  document.getElementById("result").innerHTML = `
+    <div class="card">
+      <h2>${type === 'gaming' ? '🎮 Gaming PC' : '💼 Work PC'}</h2>
+      <p>✅ We have selected components for your budget.</p>
+      <p>📧 The list of components will be sent to your email.</p>
+      <p style="color: #888; font-size: 14px; margin-top: 10px;">(Approximate configuration: ${build})</p>
+      <button class="btn" onclick="buy()" style="margin-top: 20px; background: #4CAF50;">📩 Buy Now</button>
+    </div>
+  `;
+}
+
+// покупка
+function buy() {
+  window.location.href = "buy.html";
+}
+</script>
 
 </body>
 </html>
