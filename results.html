@@ -2,267 +2,164 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>PC Builder</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PC Builder Pro - Ryzen Edition</title>
 
 <style>
-body {
+* {
   margin: 0;
-  height: 100vh;
-  font-family: Arial, sans-serif;
-  color: white;
-  text-align: center;
-
-  background: radial-gradient(circle at center, black 0%, #222 40%, #ccc 100%);
-  background-size: 200% 200%;
-  animation: bgMove 12s ease infinite;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-@keyframes bgMove {
-  0% { background-position: center; }
-  50% { background-position: top; }
-  100% { background-position: center; }
+body {
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+  color: white;
+  padding: 20px;
 }
 
 .container {
-  text-align: center;
-  animation: fadeIn 0.6s ease;
+  max-width: 1300px;
+  margin: 0 auto;
 }
 
-/* КНОПКИ */
-.btn {
-  padding: 15px 30px;
-  margin: 10px;
-  border: none;
-  border-radius: 10px;
-  background: #555;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.25s ease;
+.header {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 30px;
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.1);
+}
 
-  animation: pulse 2.5s infinite;
+.header h1 {
+  font-size: 2.8rem;
+  font-weight: 300;
+  letter-spacing: 2px;
+}
+
+.header .budget {
+  font-size: 4.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #f7971e, #ffd200);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: pulse 2s infinite;
+}
+
+.header .sub {
+  font-size: 1.2rem;
+  color: #aaa;
+}
+
+.profit-block {
+  background: rgba(0,0,0,0.7);
+  border-radius: 15px;
+  padding: 25px;
+  margin-bottom: 30px;
+  border: 1px solid rgba(255,215,0,0.15);
+}
+
+.profit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+  margin-bottom: 15px;
+}
+
+.profit-item {
+  text-align: center;
+}
+
+.profit-label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #aaa;
+  margin-bottom: 5px;
+}
+
+.profit-value {
+  font-size: 2.2rem;
+  font-weight: 700;
+  transition: all 0.3s;
+}
+
+.profit-value.green { color: #4caf50; }
+.profit-value.gold { color: #ffd700; }
+.profit-value.red { color: #ff6b6b; }
+.profit-value.purple { color: #a855f7; }
+
+.profit-bar-track {
+  width: 100%;
+  height: 10px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 5px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.profit-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #4caf50, #ffd700, #ff6b6b, #a855f7);
+  border-radius: 5px;
+  transition: width 0.3s ease;
+}
+
+.choice-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.btn {
+  padding: 22px 30px;
+  border: 2px solid rgba(255,255,255,0.1);
+  border-radius: 15px;
+  background: rgba(255,255,255,0.05);
+  color: white;
+  font-size: 1.3rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
 }
 
 .btn:hover {
-  background: #888;
-  transform: scale(1.1);
-  box-shadow: 0 0 15px #aaa;
+  transform: translateY(-5px);
+  background: rgba(255,255,255,0.1);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
-.btn:active {
-  transform: scale(0.9);
-}
+.btn-gaming { border-color: #e74c3c; }
+.btn-gaming:hover { border-color: #e74c3c; box-shadow: 0 10px 30px rgba(231,76,60,0.3); }
 
-/* ПУЛЬС */
-@keyframes pulse {
-  0% { box-shadow: 0 0 0px #fff; }
-  50% { box-shadow: 0 0 12px #aaa; }
-  100% { box-shadow: 0 0 0px #fff; }
-}
+.btn-work { border-color: #3498db; }
+.btn-work:hover { border-color: #3498db; box-shadow: 0 10px 30px rgba(52,152,219,0.3); }
 
-/* КАРТОЧКА */
-.card {
-  margin-top: 25px;
+.btn-premium { border-color: #a855f7; }
+.btn-premium:hover { border-color: #a855f7; box-shadow: 0 10px 30px rgba(168,85,247,0.3); }
+
+.build-card {
   background: rgba(0,0,0,0.85);
-  padding: 25px;
-  border-radius: 12px;
-  display: inline-block;
-  min-width: 300px;
-
-  opacity: 0;
-  transform: translateY(30px) scale(0.95);
-  animation: cardIn 0.5s ease forwards;
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 30px;
+  border: 1px solid rgba(255,255,255,0.1);
+  animation: slideUp 0.6s ease;
+  margin-top: 20px;
 }
 
-.card:hover {
-  transform: scale(1.03);
-  box-shadow: 0 0 20px rgba(255,255,255,0.25);
-}
-
-@keyframes cardIn {
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-/* ТЕКСТ ПО СТРОКАМ */
-.card p {
-  opacity: 0;
-  animation: textFade 0.5s forwards;
-}
-
-.card p:nth-child(2) { animation-delay: 0.1s; }
-.card p:nth-child(3) { animation-delay: 0.2s; }
-.card p:nth-child(4) { animation-delay: 0.3s; }
-.card p:nth-child(5) { animation-delay: 0.4s; }
-
-@keyframes textFade {
-  to { opacity: 1; }
-}
-
-/* появление страницы */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-</style>
-</head>
-
-<body>
-
-<div class="container">
-
-  <h1>Your Budget: <span id="budget"></span>€</h1>
-
-  <div id="choose">
-    <button class="btn" onclick="buildPC('gaming')">🎮 Gaming</button>
-    <button class="btn" onclick="buildPC('work')">💼 Work</button>
-  </div>
-
-  <div id="result"></div>
-
-</div>
-
-<script>
-
-// бюджет
-const params = new URLSearchParams(window.location.search);
-const clientBudget = parseInt(params.get("budget")) || 700;
-document.getElementById("budget").innerText = clientBudget;
-
-// прибыль
-function getProfit(budget) {
-  if (budget < 300) return 0;
-  if (budget < 800) return 200;
-  if (budget < 1500) return 300;
-  if (budget < 2500) return 400;
-  if (budget < 4000) return 600;
-  return 800;
-}
-
-const realBudget = clientBudget - getProfit(clientBudget);
-
-function getBuild(budget, type) {
-
-  if (type === "gaming") {
-
-    if (budget <= 400) return `
-Ryzen 5 5600G<br>
-Integrated Vega Graphics<br>
-16GB DDR4 RAM<br>
-1TB SSD<br>
-PSU 500W Bronze`;
-
-    if (budget <= 700) return `
-Ryzen 5 5600<br>
-RX 6600<br>
-16GB DDR4 RAM<br>
-1TB NVMe SSD<br>
-PSU 600W Bronze`;
-
-    if (budget <= 1000) return `
-Ryzen 5 5600X<br>
-RX 6700 XT<br>
-16GB DDR4 RAM<br>
-1TB NVMe SSD<br>
-PSU 650W Gold`;
-
-    if (budget <= 1500) return `
-Ryzen 5 7600<br>
-RTX 4060 Ti<br>
-32GB DDR5 RAM<br>
-1TB NVMe Gen4<br>
-PSU 650W Gold`;
-
-    if (budget <= 2200) return `
-Ryzen 7 7700X<br>
-RTX 4070 Super<br>
-32GB DDR5 RAM<br>
-2TB NVMe Gen4<br>
-PSU 750W Gold`;
-
-    if (budget <= 3000) return `
-Ryzen 7 7800X3D<br>
-RTX 4080 Super<br>
-32GB DDR5 RAM<br>
-2TB NVMe Gen4<br>
-PSU 850W Gold`;
-
-    return `
-Ryzen 9 7950X3D<br>
-RTX 4090<br>
-64GB DDR5 RAM<br>
-2TB NVMe Gen4<br>
-PSU 1000W Gold`;
-  }
-
-  // WORK / CREATOR
-  else {
-
-    if (budget <= 500) return `
-Ryzen 5 5600G<br>
-16GB RAM<br>
-1TB SSD<br>
-PSU 500W`;
-
-    if (budget <= 900) return `
-Ryzen 5 7600<br>
-32GB DDR5 RAM<br>
-1TB NVMe<br>
-PSU 600W`;
-
-    if (budget <= 1500) return `
-Ryzen 7 7700X<br>
-32GB DDR5 RAM<br>
-2TB NVMe<br>
-PSU 650W`;
-
-    if (budget <= 2500) return `
-Ryzen 9 7900X<br>
-64GB DDR5 RAM<br>
-2TB NVMe<br>
-PSU 750W`;
-
-    if (budget <= 4000) return `
-Ryzen 9 7950X<br>
-64GB DDR5 RAM<br>
-4TB NVMe<br>
-PSU 850W`;
-
-    return `
-Ryzen 9 7950X3D<br>
-128GB DDR5 RAM<br>
-4TB NVMe Gen4<br>
-PSU 1000W`;
-  }
-}
-
-// выбор
-function buildPC(type) {
-
-  const build = getBuild(realBudget, type);
-
-  document.getElementById("choose").style.display = "none";
-
-  document.getElementById("result").innerHTML = `
-    <div class="card">
-      <h2>${type === 'gaming' ? 'Gaming PC' : 'Work PC'}</h2>
-      <p>${build}</p>
-      <p><b>Price:</b> ${clientBudget}€</p>
-      <button class="btn" onclick="buy()">🛒 Buy Now</button>
-    </div>
-  `;
-}
-
-// покупка
-function buy() {
-  window.location.href = "buy.html";
-}
+.build-header {
+  display: flex;
+  justify-content: space-between;
+  align-items:
 
 </script>
 
