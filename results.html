@@ -1,4 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>PC Builder</title>
 
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  color: white;
+  text-align: center;
+
+  background: radial-gradient(circle at center, black 0%, #222 40%, #ccc 100%);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  text-align: center;
+}
+
+.btn {
+  padding: 15px 30px;
+  margin: 10px;
+  border: none;
+  border-radius: 10px;
+  background: #555;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #777;
+}
+
+.card {
+  margin-top: 25px;
+  background: rgba(0,0,0,0.85);
+  padding: 25px;
+  border-radius: 12px;
+  display: inline-block;
+  min-width: 320px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>Your Budget: <span id="budget"></span>€</h1>
+
+  <div id="choose">
+    <button class="btn" onclick="buildPC('gaming')">🎮 Gaming</button>
+    <button class="btn" onclick="buildPC('work')">💼 Work</button>
+  </div>
+
+  <div id="result"></div>
+
+</div>
+
+<script>
+
+// БЮДЖЕТ
+const params = new URLSearchParams(window.location.search);
+const clientBudget = parseInt(params.get("budget")) || 1000;
+
+document.getElementById("budget").innerText = clientBudget;
+
+// 💰 ПРИБЫЛЬ (НЕ ПАЛИТСЯ)
+function getProfit(budget) {
+  if (budget < 300) return 0;
+  if (budget < 800) return 150;
+  if (budget < 1500) return 200;
+  if (budget < 3000) return 300;
+  return 500;
+}
+
+const realBudget = clientBudget - getProfit(clientBudget);
+
+// 🔥 ТОПОВЫЕ СБОРКИ
+function getBuild(budget, type) {
+
+  // 🎮 GAMING
+  if (type === "gaming") {
+
+    if (budget <= 300) return `
+Ryzen 5 5600G<br>
+Radeon Vega Graphics<br>
+16GB DDR4 3200MHz<br>
+500GB SSD`;
+
+    if (budget <= 600) return `
+Ryzen 5 5600<br>
+RX 6650 XT<br>
+16GB DDR4 3600MHz<br>
+1TB NVMe`;
+
+    if (budget <= 1000) return `
+Ryzen 5 7600<br>
+RX 7600 XT<br>
+32GB DDR5 6000MHz<br>
+1TB NVMe Gen4`;
+
+    if (budget <= 1500) return `
+Ryzen 7 7700X<br>
+RTX 4070<br>
+32GB DDR5 6000MHz<br>
+1TB NVMe Gen4`;
+
+    if (budget <= 2500) return `
+Ryzen 7 7800X3D<br>
+RTX 4070 Ti Super<br>
+32GB DDR5 6400MHz<br>
+2TB NVMe Gen4`;
+
+    if (budget <= 4000) return `
+Ryzen 9 7900X3D<br>
+RTX 4080 Super<br>
+64GB DDR5 6400MHz<br>
+2TB NVMe Gen4`;
+
+    if (budget <= 7000) return `
+Ryzen 9 7950X3D<br>
+RTX 4090<br>
+64GB DDR5 6800MHz<br>
+4TB NVMe Gen4`;
+
+    return `
+Ryzen 9 9950X3D (Next-Gen)<br>
+RTX 5090 / 5090 Ti<br>
+128GB DDR5 7200MHz<br>
+4TB NVMe Gen5`;
+  }
+
+  // 💼 WORK
+  else {
+
+    if (budget <= 300) return `
+Ryzen 5 5600G<br>
+16GB RAM<br>
+500GB SSD`;
+
+    if (budget <= 600) return `
+Ryzen 5 5600<br>
+32GB DDR4<br>
+1TB SSD`;
+
+    if (budget <= 1000) return `
+Ryzen 7 7700<br>
+32GB DDR5<br>
+1TB NVMe`;
+
+    if (budget <= 1500) return `
+Ryzen 7 7700X<br>
+64GB DDR5<br>
+1TB NVMe`;
+
+    if (budget <= 2500) return `
+Ryzen 9 7900X<br>
+64GB DDR5<br>
+2TB NVMe`;
+
+    if (budget <= 4000) return `
+Ryzen 9 7950X<br>
+96GB DDR5<br>
+2TB NVMe`;
+
+    if (budget <= 7000) return `
+Ryzen 9 7950X3D<br>
+128GB DDR5<br>
+4TB NVMe`;
+
+    return `
+Ryzen 9 9950X3D (Next-Gen)<br>
+192GB DDR5 ECC<br>
+4TB NVMe Gen5`;
+  }
+}
+
+// ВЫБОР
+function buildPC(type) {
+
+  const build = getBuild(realBudget, type);
+
+  document.getElementById("choose").style.display = "none";
+
+  document.getElementById("result").innerHTML = `
+    <div class="card">
+      <h2>${type === 'gaming' ? 'Gaming PC' : 'Work PC'}</h2>
+      <p>${build}</p>
+      <p><b>Total Price:</b> ${clientBudget}€</p>
+      <button class="btn" onclick="buy()">🛒 Buy Now!</button>
+    </div>
+  `;
+}
+
+// ПОКУПКА
+function buy() {
+  window.location.href = "buy.html";
+}
+
+</script>
+
+</body>
+</html>
 </script>
 
 </body>
