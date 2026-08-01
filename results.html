@@ -32,162 +32,161 @@ body {
   color: white;
   font-size: 16px;
   cursor: pointer;
-  transition: .3s;
 }
 
 .btn:hover {
   background: #777;
-  transform: scale(1.05);
 }
 
 .card {
   margin-top: 25px;
-  background: rgba(0,0,0,.85);
+  background: rgba(0,0,0,0.85);
   padding: 25px;
   border-radius: 12px;
   display: inline-block;
-  min-width: 320px;
-  box-shadow: 0 0 20px rgba(0,0,0,.5);
+  min-width: 300px;
 }
 
-.card h2 {
-  margin-top: 0;
-  color: #00c8ff;
+/* 🔥 КНОПКА BUY */
+.buy-btn {
+  margin-top: 15px;
+  padding: 14px 25px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
-.card p {
-  line-height: 1.8;
-  font-size: 17px;
+.buy-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(34,197,94,0.6);
 }
 </style>
-
 </head>
+
 <body>
 
 <div class="container">
 
-<h1>Your Budget: <span id="budget"></span>€</h1>
+  <h1>Your Budget: <span id="budget"></span>€</h1>
 
-<div id="choose">
-    <button class="btn" onclick="buildPC('gaming')">🎮 Gaming</button>
+  <div id="choose">
+    <button class="btn" onclick="buildPC('gaming')">🎮 Game</button>
     <button class="btn" onclick="buildPC('work')">💼 Work</button>
-</div>
+  </div>
 
-<div id="result"></div>
+  <div id="result"></div>
 
 </div>
 
 <script>
-// получаем бюджет из ссылки
+// бюджет
 const params = new URLSearchParams(window.location.search);
-const clientBudget = parseInt(params.get("budget")) || 700;
+const clientBudget = parseInt(params.get("budget")) || 1000;
 
 document.getElementById("budget").innerText = clientBudget;
 
-// прибыль
-let profit = 100;
+// 📈 ЛОГИКА ПРИБЫЛИ
+let profit = 150;
 
-if (clientBudget > 300) {
-    profit = 150;
-}
+if (clientBudget > 1500) profit = 220;
+if (clientBudget > 2500) profit = 300;
+if (clientBudget > 4000) profit = 450;
 
 const realBudget = clientBudget - profit;
 
-// сборки
+// СБОРКИ
 function getBuild(budget, type) {
 
   if (type === "gaming") {
 
-    if (budget <= 400) return `
-AMD Ryzen 5 2600<br>
-GTX 1650 4GB<br>
-16GB DDR4<br>
-A320 Motherboard<br>
-480GB SSD<br>
-500W Bronze PSU<br>
-Aerocool Bolt`;
+    if (budget <= 600) return `
+Ryzen 5 5500<br>
+RX 6600<br>
+16GB RAM<br>
+1TB NVMe`;
 
-    if (budget <= 700) return `
-AMD Ryzen 5 5600<br>
-RX 6600 8GB<br>
-16GB DDR4 3600MHz<br>
-B550 Motherboard<br>
-1TB NVMe SSD<br>
-650W Bronze PSU<br>
-Deepcool Matrexx 55`;
-
-    if (budget <= 1000) return `
-AMD Ryzen 5 7500F<br>
-RTX 4060 8GB<br>
-32GB DDR5 6000MHz<br>
-B650 Motherboard<br>
-1TB Gen4 NVMe SSD<br>
-650W Gold PSU<br>
-NZXT H5 Flow`;
+    if (budget <= 900) return `
+Ryzen 5 5600<br>
+RTX 3060<br>
+16GB RAM<br>
+1TB NVMe`;
 
     if (budget <= 1300) return `
-AMD Ryzen 7 7700<br>
-RTX 4070 12GB<br>
-32GB DDR5 6000MHz<br>
-B650 Motherboard<br>
-2TB Gen4 NVMe SSD<br>
-750W Gold PSU<br>
-Lian Li Lancool 216`;
+Ryzen 5 7600<br>
+RTX 4060<br>
+32GB DDR5<br>
+1TB NVMe`;
+
+    if (budget <= 1800) return `
+Ryzen 7 7700<br>
+RTX 4070<br>
+32GB DDR5<br>
+2TB NVMe`;
+
+    if (budget <= 2500) return `
+Ryzen 7 7800X3D<br>
+RTX 4070 Ti Super<br>
+32GB DDR5<br>
+2TB NVMe`;
+
+    if (budget <= 3500) return `
+Ryzen 9 7900X<br>
+RTX 4080 Super<br>
+64GB DDR5<br>
+2TB NVMe`;
 
     return `
-AMD Ryzen 7 7800X3D<br>
-RTX 5070 12GB<br>
-32GB DDR5 6400MHz<br>
-X670 Motherboard<br>
-2TB Samsung 990 Pro<br>
-850W Gold PSU<br>
-Corsair 4000D Airflow`;
+Ryzen 9 7950X3D<br>
+RTX 4090<br>
+64GB DDR5<br>
+4TB NVMe`;
   }
 
-  // WORK PC
+  // WORK
+  else {
 
-  if (budget <= 400) return `
-AMD Ryzen 3 4100<br>
-16GB DDR4<br>
-A520 Motherboard<br>
-500GB SSD<br>
-500W PSU<br>
-Zalman S2`;
+    if (budget <= 600) return `
+Ryzen 5 5600G<br>
+16GB RAM<br>
+1TB SSD`;
 
-  if (budget <= 700) return `
-AMD Ryzen 5 5600G<br>
-32GB DDR4<br>
-B550 Motherboard<br>
-1TB NVMe SSD<br>
-600W Bronze PSU<br>
-Fractal Focus G`;
+    if (budget <= 900) return `
+Ryzen 5 7600<br>
+32GB DDR5<br>
+1TB NVMe`;
 
-  if (budget <= 1000) return `
-AMD Ryzen 7 5700G<br>
-32GB DDR4<br>
-B550 Motherboard<br>
-1TB Gen4 NVMe SSD<br>
-650W Gold PSU<br>
-be quiet! Pure Base 500`;
+    if (budget <= 1300) return `
+Ryzen 7 7700<br>
+32GB DDR5<br>
+1TB NVMe`;
 
-  if (budget <= 1300) return `
-AMD Ryzen 7 7700<br>
+    if (budget <= 1800) return `
+Ryzen 7 7800X<br>
 64GB DDR5<br>
-B650 Motherboard<br>
-2TB Gen4 NVMe SSD<br>
-750W Gold PSU<br>
-Fractal Design North`;
+2TB NVMe`;
 
-  return `
-AMD Ryzen 9 7900<br>
-64GB DDR5 6400MHz<br>
-X670 Motherboard<br>
-2TB Samsung 990 Pro<br>
-850W Gold PSU<br>
-NZXT H7 Flow`;
+    if (budget <= 2500) return `
+Ryzen 9 7900<br>
+64GB DDR5<br>
+2TB NVMe`;
+
+    if (budget <= 3500) return `
+Ryzen 9 7950X<br>
+96GB DDR5<br>
+2TB NVMe`;
+
+    return `
+Ryzen 9 7950X3D<br>
+128GB DDR5<br>
+4TB NVMe`;
+  }
 }
 
-// выбор типа
+// выбор
 function buildPC(type) {
 
   const build = getBuild(realBudget, type);
@@ -196,22 +195,21 @@ function buildPC(type) {
 
   document.getElementById("result").innerHTML = `
     <div class="card">
-      <h2>${type === "gaming" ? "🎮 Gaming PC" : "💼 Work PC"}</h2>
-
+      <h2>${type === 'gaming' ? 'Gaming PC' : 'Work PC'}</h2>
       <p>${build}</p>
-
       <p><b>Price:</b> ${clientBudget}€</p>
-
-      <button class="btn" onclick="buy()">🛒 Buy Now</button>
+      <button class="buy-btn" onclick="buy()">🛒 Buy Now!</button>
     </div>
   `;
 }
 
-// кнопка покупки
 function buy() {
   window.location.href = "buy.html";
 }
 </script>
+
+</body>
+</html></script>
 
 </body>
 </html>
